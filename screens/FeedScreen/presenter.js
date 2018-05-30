@@ -4,18 +4,25 @@ import {
   View,
   Text,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  ImageBackground,
+  Dimensions
 } from "react-native";
 import PropTypes from "prop-types";
 import ActionButton from "react-native-action-button";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Photo from "../../components/Photo";
+const { width, height } = Dimensions.get("window");
 
 const FeedScreen = props => (
-  <View style={styles.container}>
+  <ImageBackground
+    source={require("../../assets/images/background.jpg")}
+    style={{ width, height, flex: 1, alignSelf: "center" }}
+  >
+    {/* <View style={styles.container}> */}
     <FlatList
       data={props.images}
-      initialNumToRender={20}
+      initialNumToRender={2}
       refreshing={props.isRefreshing}
       onRefresh={props.onRefresh}
       onEndReachedThreshold={1}
@@ -28,7 +35,6 @@ const FeedScreen = props => (
     {/* FAB */}
     <ActionButton offsetX={15} offsetY={15}>
       <ActionButton.Item
-        title={"카메라"}
         onPress={() => {
           console.log("카메라");
         }}
@@ -36,7 +42,6 @@ const FeedScreen = props => (
         <Ionicons name={"md-camera"} style={styles.actionBtnIcon} />
       </ActionButton.Item>
       <ActionButton.Item
-        title={"앨범"}
         onPress={() => {
           console.log("앨범");
         }}
@@ -44,12 +49,15 @@ const FeedScreen = props => (
         <Ionicons name={"md-film"} style={styles.actionBtnIcon} />
       </ActionButton.Item>
     </ActionButton>
-  </View>
+    {/* </View> */}
+  </ImageBackground>
 );
 
 const styles = StyleSheet.create({
   container: {
     flex: 1
+    // backgroundColor: "white"
+    // alignSelf: "center"
   },
   // actionBtn: {
   //   offsetX: 30

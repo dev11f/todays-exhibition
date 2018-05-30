@@ -6,7 +6,7 @@ export const randomImages = count => {
     arr.push({
       key: faker.random.uuid(),
       // image
-      image: faker.image.imageUrl(),
+      image: faker.image.image(),
       title: faker.name.title(),
       timestamp: faker.date.past(),
       like_count: faker.random.number(),
@@ -22,4 +22,14 @@ export const randomImages = count => {
   }
 
   return arr;
+};
+
+export const randomUser = () => {
+  const user = {
+    key: faker.random.uuid(),
+    avatar: faker.image.avatar(),
+    username: faker.name.firstName()
+  };
+
+  return user;
 };

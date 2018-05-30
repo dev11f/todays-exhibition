@@ -1,4 +1,4 @@
 import { connect } from "react-redux";
-import Container from "./container";
+import Presenter from "./container";
 
-export default connect()(Container);
+export default connect()(Presenter);
