@@ -11,13 +11,13 @@ class Container extends PureComponent {
     images: [
       {
         avatar: "https://s3.amazonaws.com/uifaces/faces/twitter/h1brd/128.jpg",
-        comment_count: 6185,
-        hate_count: 935,
+        comment_count: 685,
+        hate_count: 933,
         image: require("../../assets/images/image1.jpeg"),
         key: "9e74927a-792f-4eb5-8479-a3b00ea73a40",
-        like_count: 368,
+        like_count: 328,
         timestamp: 223,
-        title: "안녕하세요 저는 작품입니다. 하이하이하.",
+        title: "작품명이 무엇일까 가나다라마바사하하하하",
         username: "제이름은 열자입니다"
       },
       {

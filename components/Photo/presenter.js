@@ -8,18 +8,13 @@ const { width, height } = Dimensions.get("window");
 
 const Photo = props => (
   <View style={styles.photo}>
-    {/* <View style={styles.outerframe}> */}
-    <View style={styles.innerframe}>
-      <FadeIn>
-        <Image
-          source={props.image}
-          defaultSource={require("../../assets/images/photoPlaceholder.png")}
-          style={styles.image}
-        />
-      </FadeIn>
-    </View>
-    {/* </View> */}
-
+    <FadeIn>
+      <Image
+        source={props.image}
+        defaultSource={require("../../assets/images/photoPlaceholder.png")}
+        style={styles.image}
+      />
+    </FadeIn>
     <View style={styles.photoMeta}>
       <View style={styles.photoActions}>
         <PhotoActions
@@ -31,53 +26,45 @@ const Photo = props => (
         <Description title={props.title} username={props.username} />
       </View>
     </View>
-    <View>
-      <Text>안녕 난 코멘트야</Text>
+    <View style={styles.comment}>
+      <Text style={styles.commentAuthor}>
+        유저1
+        <Text style={styles.message}>동해물과 백두산이 마르고 닳도록</Text>
+      </Text>
     </View>
   </View>
 );
 
-// 사진
-// 추천, 비추천, 추천수, 비추천수
-// 댓글
-
-// 만들어진 시간??
-// 작가명, 작품명
-
 const styles = StyleSheet.create({
   photo: {
-    width: width - 10,
-    marginHorizontal: 5,
-    marginBottom: 10,
-    alignSelf: "center"
-    // justifyContent: "space-between"
+    width
+  },
+  image: {
+    width
   },
   photoMeta: {
     marginTop: 5,
     flexDirection: "row"
-    // justifyContent: "space-between"
-  },
-  outerframe: {
-    borderWidth: 10,
-    borderColor: "black"
-  },
-  innerframe: {
-    width: width - 30,
-    borderWidth: 20,
-    borderColor: "white"
-  },
-  image: {
-    width: width - 50,
-    height: 300,
-    alignSelf: "center"
-  },
-  description: {
-    // width: 200
-    flex: 1
   },
   photoActions: {
-    // width:x 100
     flex: 1
+  },
+  description: {
+    flex: 1.5,
+    marginRight: 7,
+    marginTop: -25
+  },
+  comment: {
+    // marginTop: 5
+  },
+  commentAuthor: {
+    marginRight: 5,
+    fontWeight: "600",
+    fontSize: 14
+  },
+  message: {
+    fontWeight: "400",
+    fontSize: 15
   }
 });
 

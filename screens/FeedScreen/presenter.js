@@ -15,11 +15,11 @@ import Photo from "../../components/Photo";
 const { width, height } = Dimensions.get("window");
 
 const FeedScreen = props => (
-  <ImageBackground
-    source={require("../../assets/images/background.jpg")}
-    style={{ width, height, flex: 1, alignSelf: "center" }}
-  >
-    {/* <View style={styles.container}> */}
+  // <ImageBackground
+  //   source={require("../../assets/images/background.jpg")}
+  //   style={{ width, height, flex: 1, alignSelf: "center" }}
+  // >
+  <View style={styles.container}>
     <FlatList
       data={props.images}
       initialNumToRender={2}
@@ -49,14 +49,14 @@ const FeedScreen = props => (
         <Ionicons name={"md-film"} style={styles.actionBtnIcon} />
       </ActionButton.Item>
     </ActionButton>
-    {/* </View> */}
-  </ImageBackground>
+  </View>
+  // </ImageBackground>
 );
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-    // backgroundColor: "white"
+    flex: 1,
+    backgroundColor: "white"
     // alignSelf: "center"
   },
   // actionBtn: {
