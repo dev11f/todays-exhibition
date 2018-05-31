@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import ActionButton from "react-native-action-button";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Photo from "../../components/Photo";
+import FeedHeader from "../../components/FeedHeader";
 const { width, height } = Dimensions.get("window");
 
 const FeedScreen = props => (
@@ -19,6 +20,7 @@ const FeedScreen = props => (
   //   source={require("../../assets/images/background.jpg")}
   //   style={{ width, height, flex: 1, alignSelf: "center" }}
   // >
+
   <View style={styles.container}>
     <FlatList
       data={props.images}
@@ -27,28 +29,36 @@ const FeedScreen = props => (
       onRefresh={props.onRefresh}
       onEndReachedThreshold={1}
       onEndReached={props.onEndReached}
+      ListHeaderComponent={<FeedHeader />}
       renderItem={({ item }) => {
         return <Photo {...item} key={item.key} />;
       }}
+      onMomentumScrollBegin={() => props.scrollBegin()}
+      onMomentumScrollEnd={() => props.scrollEnd()}
     />
 
     {/* FAB */}
-    <ActionButton offsetX={15} offsetY={15}>
-      <ActionButton.Item
-        onPress={() => {
-          console.log("카메라");
-        }}
-      >
-        <Ionicons name={"md-camera"} style={styles.actionBtnIcon} />
-      </ActionButton.Item>
-      <ActionButton.Item
-        onPress={() => {
-          console.log("앨범");
-        }}
-      >
-        <Ionicons name={"md-film"} style={styles.actionBtnIcon} />
-      </ActionButton.Item>
-    </ActionButton>
+
+    {props.isScrolling ? (
+      <View />
+    ) : (
+      <ActionButton offsetX={15} offsetY={15}>
+        <ActionButton.Item
+          onPress={() => {
+            console.log("카메라");
+          }}
+        >
+          <Ionicons name={"md-camera"} style={styles.actionBtnIcon} />
+        </ActionButton.Item>
+        <ActionButton.Item
+          onPress={() => {
+            console.log("앨범");
+          }}
+        >
+          <Ionicons name={"md-film"} style={styles.actionBtnIcon} />
+        </ActionButton.Item>
+      </ActionButton>
+    )}
   </View>
   // </ImageBackground>
 );
@@ -71,6 +81,7 @@ const styles = StyleSheet.create({
 
 FeedScreen.propTypes = {
   isRefreshing: PropTypes.bool.isRequired,
+  isScrolling: PropTypes.bool.isRequired,
   images: PropTypes.array,
   onRefresh: PropTypes.func.isRequired,
   onEndReached: PropTypes.func.isRequired
