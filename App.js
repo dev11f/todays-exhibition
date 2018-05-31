@@ -1,5 +1,5 @@
 import React from "react";
-import { AppLoading, Asset } from "expo";
+import { AppLoading, Asset, Font } from "expo";
 import AppContainer from "./components/AppContainer";
 
 import { Provider } from "react-redux";
@@ -36,7 +36,11 @@ class App extends React.Component {
       Asset.loadAsync([
         require("./assets/images/noPhoto.jpg"),
         require("./assets/images/photoPlaceholder.png")
-      ])
+      ]),
+      Font.loadAsync({
+        "noto-sans-regular": require("./assets/fonts/NotoSansMonoCJKkr-Regular.otf"),
+        "noto-sans-bold": require("./assets/fonts/NotoSansCJKkr-Bold.otf")
+      })
     ]);
   };
 

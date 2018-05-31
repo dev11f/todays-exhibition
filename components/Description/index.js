@@ -21,11 +21,7 @@ const Description = props => (
           </TouchableOpacity>
 
           <TouchableOpacity>
-            <Image
-              source={require("../../assets/images/arrow.png")}
-              width={5}
-              height={2}
-            />
+            <Image source={require("../../assets/images/arrow.png")} />
           </TouchableOpacity>
         </View>
       </View>

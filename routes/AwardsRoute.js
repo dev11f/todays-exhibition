@@ -7,7 +7,7 @@ const AwardsRoute = createStackNavigator({
   Awards: {
     screen: AwardsScreen,
     navigationOptions: {
-      headerTitle: <Text>어워드</Text>
+      headerTitle: <Text>수상작</Text>
     }
   }
 });
