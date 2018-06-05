@@ -23,16 +23,17 @@ const FeedScreen = props => (
 
   <View style={styles.container}>
     <FlatList
-      data={props.images}
+      data={props.feed}
       initialNumToRender={2}
       refreshing={props.isRefreshing}
       onRefresh={props.onRefresh}
       onEndReachedThreshold={1}
       onEndReached={props.onEndReached}
       ListHeaderComponent={<FeedHeader />}
-      renderItem={({ item }) => {
-        return <Photo {...item} key={item.key} />;
+      renderItem={({ item, index }) => {
+        return <Photo {...item} />;
       }}
+      keyExtractor={item => item.id.toString()}
       onMomentumScrollBegin={() => props.scrollBegin()}
       onMomentumScrollEnd={() => props.scrollEnd()}
     />

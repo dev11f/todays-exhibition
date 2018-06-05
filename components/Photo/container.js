@@ -6,6 +6,7 @@ import Photo from "./presenter";
 class Container extends PureComponent {
   constructor(props) {
     super(props);
+    console.log("content", props);
   }
   render() {
     return <Photo {...this.props} />;

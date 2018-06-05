@@ -5,6 +5,11 @@ import { randomImages } from "../../util";
 
 // FlatList는 PureComponent랑???
 class Container extends PureComponent {
+  static propTypes = {
+    getFeed: PropTypes.func.isRequired,
+    feed: PropTypes.array
+  };
+
   state = {
     isRefreshing: false,
     isScrolling: false,
@@ -53,6 +58,11 @@ class Container extends PureComponent {
     ]
   };
 
+  componentDidMount = () => {
+    const { getFeed } = this.props;
+    getFeed();
+  };
+
   // componentWillReceiveProps = nextProps => {
   //   if (nextProps.images) {
   //     this.setState({
@@ -64,6 +74,7 @@ class Container extends PureComponent {
   render() {
     return (
       <FeedScreen
+        {...this.props}
         {...this.state}
         onRefresh={this._onRefresh}
         onEndReached={this._onEndReached}

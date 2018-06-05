@@ -11,7 +11,10 @@ const Award = props => (
     <View style={styles.prizeWinners}>
       <View style={styles.prizeWinner}>
         <View>
-          <Image source={require("../../assets/images/first.png")} />
+          <Image
+            source={require("../../assets/images/first.png")}
+            style={{ width: 10, height: 10, d }}
+          />
         </View>
         <Image
           source={require("../../assets/images/image1.jpeg")}

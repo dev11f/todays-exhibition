@@ -19,7 +19,11 @@ const Photo = props => (
     <View style={styles.imageContainer}>
       {/* <FadeIn> */}
       <Image
-        source={props.image}
+        source={
+          props.content
+            ? { uri: props.content }
+            : require("../../assets/images/photoPlaceholder.png")
+        }
         // defaultSource={require("../../assets/images/photoPlaceholder.png")}
         style={styles.image}
         borderWidth={StyleSheet.hairlineWidth}
@@ -29,13 +33,10 @@ const Photo = props => (
     </View>
     <View style={styles.photoMeta}>
       <View style={styles.photoActions}>
-        <PhotoActions
-          like_count={props.like_count}
-          hate_count={props.hate_count}
-        />
+        <PhotoActions like_count={props.likes} hate_count={props.hates} />
       </View>
       <View style={styles.description}>
-        <Description title={props.title} username={props.username} />
+        <Description title={props.title} username={props.nickname} />
       </View>
     </View>
 
@@ -89,7 +90,8 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     alignSelf: "center",
-    width: width - 60
+    width: width - 60,
+    height: 300
     // resizeMode: "contain"
 
     // ...Platform.select({

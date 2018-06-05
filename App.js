@@ -7,6 +7,9 @@ import { PersistGate } from "redux-persist/es/integration/react";
 import configureStore from "./redux//configureStore";
 const { persistor, store } = configureStore();
 
+// store.dispatch({ type: "LOG_OUT" });
+// persistor.purge();
+
 class App extends React.Component {
   state = {
     isLoadingComplete: false
