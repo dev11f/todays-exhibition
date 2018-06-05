@@ -7,7 +7,16 @@ const NotificationsRoute = createStackNavigator({
   Notifications: {
     screen: NotificationsScreen,
     navigationOptions: {
-      headerTitle: <Text>관심</Text>
+      headerTitle: (
+        <Text
+          style={{
+            fontFamily: "noto-sans-bold",
+            fontSize: 15
+          }}
+        >
+          소식
+        </Text>
+      )
     }
   }
 });

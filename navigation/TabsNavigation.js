@@ -1,4 +1,5 @@
 import React from "react";
+import { Image } from "react-native";
 import { createBottomTabNavigator, tabBarOptions } from "react-navigation";
 import HomeRoute from "../routes/HomeRoute";
 import AwardsRoute from "../routes/AwardsRoute";
@@ -13,9 +14,14 @@ const TabsNavigation = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: ({ focused }) => {
           return (
-            <Ionicons
-              name={focused ? "ios-image" : "ios-image-outline"}
-              size={30}
+            <Image
+              source={
+                focused
+                  ? require("../assets/tabIcons/feed_active.png")
+                  : require("../assets/tabIcons/feed.png")
+              }
+              style={{ width: 20, height: 20 }}
+              resizeMode={"contain"}
             />
           );
         }
@@ -26,9 +32,14 @@ const TabsNavigation = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: ({ focused }) => {
           return (
-            <Ionicons
-              name={focused ? "ios-ribbon" : "ios-ribbon-outline"}
-              size={30}
+            <Image
+              source={
+                focused
+                  ? require("../assets/tabIcons/awards_active.png")
+                  : require("../assets/tabIcons/awards.png")
+              }
+              style={{ width: 20, height: 20 }}
+              resizeMode={"contain"}
             />
           );
         }
@@ -39,9 +50,14 @@ const TabsNavigation = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: ({ focused }) => {
           return (
-            <Ionicons
-              name={focused ? "ios-heart" : "ios-heart-outline"}
-              size={30}
+            <Image
+              source={
+                focused
+                  ? require("../assets/tabIcons/noti_active.png")
+                  : require("../assets/tabIcons/noti.png")
+              }
+              style={{ width: 20, height: 20 }}
+              resizeMode={"contain"}
             />
           );
         }
@@ -52,9 +68,14 @@ const TabsNavigation = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: ({ focused }) => {
           return (
-            <Ionicons
-              name={focused ? "ios-person" : "ios-person-outline"}
-              size={30}
+            <Image
+              source={
+                focused
+                  ? require("../assets/tabIcons/my_active.png")
+                  : require("../assets/tabIcons/my.png")
+              }
+              style={{ width: 20, height: 20 }}
+              resizeMode={"contain"}
             />
           );
         }

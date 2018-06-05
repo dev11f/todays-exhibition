@@ -6,6 +6,8 @@ class Container extends Component {
   render() {
     return <NotificationsScreen />;
   }
+
+  _refresh = () => {};
 }
 
 export default Container;

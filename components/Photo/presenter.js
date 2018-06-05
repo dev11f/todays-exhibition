@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, View, Text, Image, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Dimensions,
+  Platform
+} from "react-native";
 import { List, ListItem, Right, Left } from "native-base";
 import PropTypes from "prop-types";
 import FadeIn from "react-native-fade-in-image";
@@ -8,14 +15,18 @@ import PhotoActions from "../PhotoActions";
 const { width, height } = Dimensions.get("window");
 
 const Photo = props => (
-  <View style={styles.photo}>
-    <FadeIn>
+  <View style={styles.container}>
+    <View style={styles.imageContainer}>
+      {/* <FadeIn> */}
       <Image
         source={props.image}
-        defaultSource={require("../../assets/images/photoPlaceholder.png")}
+        // defaultSource={require("../../assets/images/photoPlaceholder.png")}
         style={styles.image}
+        borderWidth={StyleSheet.hairlineWidth}
+        resizeMode={"contain"}
       />
-    </FadeIn>
+      {/* </FadeIn> */}
+    </View>
     <View style={styles.photoMeta}>
       <View style={styles.photoActions}>
         <PhotoActions
@@ -60,31 +71,41 @@ const Photo = props => (
         </ListItem>
       </List>
     </View>
-
-    {/* <View style={styles.comments}>
-      <View style={styles.comment}>
-        <Text style={styles.commentAuthor}>우키우키 </Text>
-        <Text
-          numberOfLines={2}
-          ellipsizeMode="tail"
-          style={styles.commentPayload}
-        >
-          연어는 영어로 살몬이 아니라 사몬. l이 묵음임. 더 길게 하면 어떻게
-          되는가 줄이 넘어가는가 어떻게 되는건지 보자. 더 길게하면 점점점으로
-          가는거라고 볼 수 있는 건가 무조건 길게 하는 더 길게 더 길게 더
-          길게길게길게길게
-        </Text>
-      </View>
-    </View> */}
   </View>
 );
 
 const styles = StyleSheet.create({
-  photo: {
-    width
+  container: {
+    flex: 1
   },
+  imageContainer: {
+    flex: 1
+    // alignSelf: "center"
+    // overflow: "hidden"
+    // width: width - 60,
+    // height: 500
+  },
+
   image: {
-    width
+    flex: 1,
+    alignSelf: "center",
+    width: width - 60
+    // resizeMode: "contain"
+
+    // ...Platform.select({
+    //   ios: {
+    //     shadowColor: "rgb(50, 50, 50)",
+    //     shadowOpacity: 0.5,
+    //     shadowRadius: 5,
+    //     shadowOffset: {
+    //       height: 2,
+    //       width: 0
+    //     }
+    //   },
+    //   android: {
+    //     elevation: 3
+    //   }
+    // })
   },
   photoMeta: {
     marginTop: 5,
@@ -96,7 +117,7 @@ const styles = StyleSheet.create({
   description: {
     flex: 1.8,
     marginRight: 7,
-    marginTop: -25
+    marginTop: -40
   },
   comments: {
     marginTop: 20,

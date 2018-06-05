@@ -19,7 +19,7 @@ class Presenter extends Component {
         <Content>
           <List>
             <ListItem itemDivider>
-              <Text>피드백</Text>
+              <Text />
             </ListItem>
             <ListItem>
               <Left>
@@ -30,7 +30,7 @@ class Presenter extends Component {
               </Right>
             </ListItem>
             <ListItem itemDivider>
-              <Text>약관</Text>
+              <Text />
             </ListItem>
             <ListItem>
               <Left>
@@ -47,6 +47,14 @@ class Presenter extends Component {
               <Right>
                 <Icon name="arrow-forward" />
               </Right>
+            </ListItem>
+            <ListItem itemDivider>
+              <Text />
+            </ListItem>
+            <ListItem onPressOut={() => console.log("로그아웃")}>
+              <Left>
+                <Text>로그아웃</Text>
+              </Left>
             </ListItem>
           </List>
         </Content>

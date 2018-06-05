@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
@@ -9,14 +9,26 @@ const ProfileRoute = createStackNavigator({
   Profile: {
     screen: ProfileScreen,
     navigationOptions: ({ focused, navigation }) => ({
-      headerTitle: <Text>내 소개</Text>,
+      headerTitle: (
+        <Text
+          style={{
+            fontFamily: "noto-sans-bold",
+            fontSize: 15
+          }}
+        >
+          내 정보
+        </Text>
+      ),
       headerRight: (
-        <Ionicons
-          name={"ios-settings"}
-          size={30}
-          onPress={() => navigation.navigate("Settings")}
-          style={{ paddingHorizontal: 20 }}
-        />
+        <TouchableOpacity onPressOut={() => navigation.navigate("Settings")}>
+          <View>
+            <Image
+              source={require("../assets/images/setting.png")}
+              style={{ paddingHorizontal: 25, width: 20, height: 20 }}
+              resizeMode={"contain"}
+            />
+          </View>
+        </TouchableOpacity>
       )
     })
   },

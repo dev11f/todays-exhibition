@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard
 } from "react-native";
+import MyAwards from "../../components/MyAwards/";
 import PropTypes from "prop-types";
 
 const ProfileScreen = props => (
@@ -33,6 +34,25 @@ const ProfileScreen = props => (
           maxLength={10}
           onBlur={() => console.log("blur")}
         />
+
+        <View style={styles.pointsContainer}>
+          <Image
+            source={require("../../assets/images/point.png")}
+            style={styles.pointsIcon}
+          />
+          <View
+            style={{
+              borderBottomWidth: 2,
+              borderColor: "#f8cf47"
+            }}
+          >
+            <Text style={styles.points}>1350</Text>
+          </View>
+        </View>
+      </View>
+
+      <View>
+        <MyAwards />
       </View>
     </View>
   </TouchableWithoutFeedback>
@@ -48,14 +68,25 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   profile_avatar: {
-    width: 120,
-    height: 120,
-    borderRadius: 60
+    width: 100,
+    height: 100,
+    borderRadius: 50
   },
   profile_username: {
-    marginTop: 25,
+    marginTop: 15,
+    fontFamily: "noto-sans-bold",
     // fontWeight: "600",
-    fontSize: 20
+    fontSize: 15
+  },
+  pointsContainer: {
+    flexDirection: "row",
+    marginTop: 15
+  },
+  pointsIcon: { width: 20, height: 20, marginRight: 5 },
+  points: {
+    marginLeft: 15,
+    fontSize: 15,
+    fontWeight: "700"
   }
 });
 

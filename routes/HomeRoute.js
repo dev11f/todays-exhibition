@@ -7,7 +7,19 @@ const HomeRoute = createStackNavigator({
   Home: {
     screen: FeedScreen,
     navigationOptions: {
-      headerTitle: <Text>오늘의 주제 : 유병재</Text>
+      headerTitle: (
+        <Text>
+          오늘의 주제:{" "}
+          <Text
+            style={{
+              fontFamily: "noto-sans-bold",
+              fontSize: 15
+            }}
+          >
+            음식
+          </Text>
+        </Text>
+      )
     }
   }
 });
