@@ -5,35 +5,56 @@ import {
   Text,
   Image,
   Dimensions,
-  Platform
+  Platform,
+  TouchableOpacity
 } from "react-native";
 import { List, ListItem, Right, Left } from "native-base";
 import PropTypes from "prop-types";
 import FadeIn from "react-native-fade-in-image";
 import Description from "../Description";
 import PhotoActions from "../PhotoActions";
+import { withNavigation } from "react-navigation";
 const { width, height } = Dimensions.get("window");
 
 const Photo = props => (
   <View style={styles.container}>
-    <View style={styles.imageContainer}>
-      {/* <FadeIn> */}
-      <Image
-        source={
-          props.content
-            ? { uri: props.content }
-            : require("../../assets/images/photoPlaceholder.png")
-        }
-        // defaultSource={require("../../assets/images/photoPlaceholder.png")}
-        style={styles.image}
-        borderWidth={StyleSheet.hairlineWidth}
-        resizeMode={"contain"}
-      />
-      {/* </FadeIn> */}
-    </View>
+    <TouchableOpacity
+      onPressOut={() =>
+        props.navigation.navigate("Comments", {
+          content: props.content,
+          likes: props.likes,
+          hates: props.hates,
+          like_flag: props.like_flag,
+          hate_flag: props.hate_flag,
+          title: props.title,
+          nickname: props.nickname
+        })
+      }
+    >
+      <View style={styles.imageContainer}>
+        <FadeIn>
+          <Image
+            source={
+              props.content
+                ? { uri: props.content }
+                : require("../../assets/images/photoPlaceholder.png")
+            }
+            // defaultSource={require("../../assets/images/photoPlaceholder.png")}
+            style={styles.image}
+            borderWidth={StyleSheet.hairlineWidth}
+            resizeMode={"contain"}
+          />
+        </FadeIn>
+      </View>
+    </TouchableOpacity>
     <View style={styles.photoMeta}>
       <View style={styles.photoActions}>
-        <PhotoActions like_count={props.likes} hate_count={props.hates} />
+        <PhotoActions
+          likes={props.likes}
+          hates={props.hates}
+          like_flag={props.like_flag}
+          hate_flag={props.hate_flag}
+        />
       </View>
       <View style={styles.description}>
         <Description title={props.title} username={props.nickname} />
@@ -42,7 +63,7 @@ const Photo = props => (
 
     <View style={styles.comments}>
       <List>
-        <ListItem>
+        <ListItem onPressOut={() => props.navigation.navigate("Comments")}>
           <Text style={styles.commentAuthor}>
             {`우키쿠키  `}
             <Text style={styles.comment}>
@@ -50,7 +71,7 @@ const Photo = props => (
             </Text>
           </Text>
         </ListItem>
-        <ListItem>
+        <ListItem onPressOut={() => props.navigation.navigate("Comments")}>
           <Text
             style={styles.commentAuthor}
             numberOfLines={2}
@@ -64,7 +85,7 @@ const Photo = props => (
             </Text>
           </Text>
         </ListItem>
-        <ListItem>
+        <ListItem onPressOut={() => props.navigation.navigate("Comments")}>
           <Text style={styles.commentAuthor}>
             {`호진  `}
             <Text style={styles.comment}>와플은 와플</Text>
@@ -139,4 +160,4 @@ const styles = StyleSheet.create({
 
 Photo.propTypes = {};
 
-export default Photo;
+export default withNavigation(Photo);

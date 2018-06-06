@@ -46,7 +46,7 @@ const FeedScreen = props => (
       <ActionButton offsetX={15} offsetY={15}>
         <ActionButton.Item
           onPress={() => {
-            console.log("카메라");
+            props.navigation.navigate("Camera");
           }}
         >
           <Ionicons name={"md-camera"} style={styles.actionBtnIcon} />

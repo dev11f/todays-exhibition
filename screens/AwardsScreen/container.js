@@ -9,7 +9,7 @@ class Container extends Component {
       <View style={styles.container}>
         <ScrollView>
           {/* 리프레시 기능 넣기 */}
-          {/* 수상내역 없을 때 넣기*/}
+          {/* 수상내역 없을 때 넣기 */}
           <Award />
           <Award />
           <Award />

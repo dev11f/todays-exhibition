@@ -6,6 +6,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fbLogin: () => {
       return dispatch(userActions.facebookLogin());
+    },
+    googleLogin: () => {
+      return dispatch(userActions.googleLogin());
     }
   };
 };

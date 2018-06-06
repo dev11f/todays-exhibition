@@ -4,6 +4,7 @@ import { createStackNavigator } from "react-navigation";
 import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import BackButton from "../components/BackButton";
 
 const ProfileRoute = createStackNavigator({
   Profile: {
@@ -35,6 +36,8 @@ const ProfileRoute = createStackNavigator({
   Settings: {
     screen: SettingsScreen,
     navigationOptions: {
+      headerLeft: props => <BackButton {...props} />,
+
       headerTitle: <Text>설정</Text>
     }
   }

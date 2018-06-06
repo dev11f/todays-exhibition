@@ -10,16 +10,16 @@ const Award = props => (
     </View>
     <View style={styles.prizeWinners}>
       <View style={styles.prizeWinner}>
-        <View>
-          <Image
-            source={require("../../assets/images/first.png")}
-            style={{ width: 10, height: 10, d }}
-          />
-        </View>
         <Image
           source={require("../../assets/images/image1.jpeg")}
           style={styles.first}
         />
+        <View style={styles.medalContainer}>
+          <Image
+            source={require("../../assets/images/first.png")}
+            style={styles.medalIcon}
+          />
+        </View>
         <Text style={styles.prizeName}>대상</Text>
       </View>
       <View style={styles.prizeWinner}>
@@ -27,6 +27,12 @@ const Award = props => (
           source={require("../../assets/images/image1.jpeg")}
           style={styles.second}
         />
+        <View style={styles.medalContainer}>
+          <Image
+            source={require("../../assets/images/second.png")}
+            style={styles.medalIcon}
+          />
+        </View>
         <Text style={styles.prizeName}>최우수</Text>
       </View>
       <View style={styles.prizeWinner}>
@@ -34,6 +40,12 @@ const Award = props => (
           source={require("../../assets/images/image1.jpeg")}
           style={styles.third}
         />
+        <View style={styles.medalContainer}>
+          <Image
+            source={require("../../assets/images/third.png")}
+            style={styles.medalIcon}
+          />
+        </View>
         <Text style={styles.prizeName}>우수</Text>
       </View>
       <View style={styles.prizeWinner}>
@@ -57,8 +69,8 @@ const Award = props => (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 15,
-    paddingBottom: 10,
+    marginHorizontal: 10,
+    paddingBottom: 15,
     marginTop: 20,
     borderBottomWidth: 0.5,
     borderBottomColor: "#7f7f7f"
@@ -84,6 +96,15 @@ const styles = StyleSheet.create({
   prizeWinner: {
     alignItems: "center"
   },
+  medalContainer: {
+    position: "absolute",
+    top: -10,
+    left: -15
+  },
+  medalIcon: {
+    width: 30,
+    height: 30
+  },
   prizeName: {
     marginTop: 5,
     fontSize: 11,
@@ -95,20 +116,20 @@ const styles = StyleSheet.create({
     fontFamily: "noto-sans-regular"
   },
   first: {
-    width: 100,
-    height: 100
+    width: 90,
+    height: 90
   },
   second: {
-    width: 80,
-    height: 80
+    width: 72.5,
+    height: 72.5
   },
   third: {
-    width: 60,
-    height: 60
+    width: 55,
+    height: 55
   },
   fourth: {
-    width: 40,
-    height: 40
+    width: 37.5,
+    height: 37.5
   },
   fifth: {
     width: 20,

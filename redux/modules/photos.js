@@ -26,6 +26,7 @@ function getFeed() {
       })
       .then(json => {
         dispatch(setFeed(json.data));
+        console.log("offset", offset);
         offset += 20;
       });
   };
