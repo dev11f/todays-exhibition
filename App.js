@@ -49,9 +49,9 @@ class App extends React.Component {
         require("./assets/images/instagram.png"),
         require("./assets/images/facebook.png"),
         require("./assets/images/kakao.png"),
-        require("./assets/introImages/intro1.png"),
-        require("./assets/introImages/intro2.png"),
-        require("./assets/introImages/intro3.png")
+        require("./assets/introImages/intro_1.png"),
+        require("./assets/introImages/intro_2.png"),
+        require("./assets/introImages/intro_3.png")
       ]),
       Font.loadAsync({
         "noto-sans-regular": require("./assets/fonts/NotoSansMonoCJKkr-Regular.otf"),

@@ -29,6 +29,7 @@ function facebookLogin() {
     if (type === "success") {
       // Build Firebase credential with the Facebook access token
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
+      console.log("facebook token", token);
 
       // Sign in with credential from the Facebook user
       firebase
@@ -67,7 +68,7 @@ function googleLogin() {
 }
 
 // Initial State
-const initialState = { isLoggedIn: true, isFirstLaunch: true };
+const initialState = { isLoggedIn: false, isFirstLaunch: true };
 
 // Reducer
 function reducer(state = initialState, action) {
@@ -87,7 +88,7 @@ function applyLogOut(state, action) {
   console.log("LOGOUTTT");
   return {
     ...state,
-    isLoggedIn: true,
+    isLoggedIn: false,
     token: ""
   };
 }

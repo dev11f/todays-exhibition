@@ -66,39 +66,73 @@ class CameraScreen extends Component {
                 this.camera = camera;
               }}
               style={styles.camera}
-            >
-              <TouchableOpacity onPressOut={this._changeType}>
-                <View style={styles.action}>
+            />
+          )}
+
+          <View style={styles.btnContainer}>
+            {pictureTaken ? (
+              <View style={styles.photoActions}>
+                <TouchableOpacity>
+                  <MaterialIcons name={"cancel"} size={60} color={"black"} />
+                </TouchableOpacity>
+                <TouchableOpacity>
                   <MaterialIcons
-                    name={
-                      type === Camera.Constants.Type.back
-                        ? "camera-front"
-                        : "camera-rear"
-                    }
-                    color="white"
-                    size={40}
+                    name={"check-circle"}
+                    size={60}
+                    color={"black"}
                   />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPressOut={this._changeFlash}>
-                <View style={styles.action}>
-                  {flash === Camera.Constants.FlashMode.off && (
-                    <MaterialIcons name={"flash-off"} color="white" size={40} />
-                  )}
-                  {flash === Camera.Constants.FlashMode.on && (
-                    <MaterialIcons name={"flash-on"} color="white" size={40} />
-                  )}
-                  {flash === Camera.Constants.FlashMode.auto && (
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "flex-end",
+                  alignItems: "center"
+                }}
+              >
+                <TouchableOpacity onPressOut={this._changeType}>
+                  <View style={styles.action}>
                     <MaterialIcons
-                      name={"flash-auto"}
-                      color="white"
+                      name={
+                        type === Camera.Constants.Type.back
+                          ? "camera-front"
+                          : "camera-rear"
+                      }
+                      color="grey"
                       size={40}
                     />
-                  )}
-                </View>
-              </TouchableOpacity>
-            </Camera>
-          )}
+                  </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                  <View style={styles.btn} />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPressOut={this._changeFlash}>
+                  <View style={styles.action}>
+                    {flash === Camera.Constants.FlashMode.off && (
+                      <MaterialIcons
+                        name={"flash-off"}
+                        color="grey"
+                        size={40}
+                      />
+                    )}
+                    {flash === Camera.Constants.FlashMode.on && (
+                      <MaterialIcons name={"flash-on"} color="grey" size={40} />
+                    )}
+                    {flash === Camera.Constants.FlashMode.auto && (
+                      <MaterialIcons
+                        name={"flash-auto"}
+                        color="grey"
+                        size={40}
+                      />
+                    )}
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
         </View>
       );
     }
@@ -133,16 +167,36 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   camera: {
-    flex: 2,
+    flex: 3,
     alignItems: "flex-start",
     justifyContent: "space-between",
     flexDirection: "row"
+  },
+  btnContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  btn: {
+    width: 100,
+    height: 100,
+    backgroundColor: "white",
+    borderColor: "#bbb",
+    borderWidth: 15,
+    borderRadius: 50
   },
   action: {
     backgroundColor: "transparent",
     height: 40,
     width: 40,
     margin: 10
+  },
+  photoActions: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    flex: 1,
+    alignItems: "center",
+    width: 250
   }
 });
 
