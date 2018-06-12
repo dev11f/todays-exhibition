@@ -8,12 +8,19 @@ import * as firebase from "firebase";
 const LOG_IN = "LOG_IN";
 const LOG_OUT = "LOG_OUT";
 const FIRST_LAUNCH = "FIRST_LAUNCH";
+const FIRST_LOGIN = "FIRST_LOGIN";
 
 // Actions Creators
 
 function firstLaunch() {
   return {
     type: FIRST_LAUNCH
+  };
+}
+
+function firstLogin() {
+  return {
+    type: FIRST_LOGIN
   };
 }
 
@@ -68,7 +75,11 @@ function googleLogin() {
 }
 
 // Initial State
-const initialState = { isLoggedIn: false, isFirstLaunch: true };
+const initialState = {
+  isLoggedIn: false,
+  isFirstLaunch: true,
+  isFirstLogin: true
+};
 
 // Reducer
 function reducer(state = initialState, action) {
@@ -77,6 +88,8 @@ function reducer(state = initialState, action) {
       return applyLogOut(state, action);
     case FIRST_LAUNCH:
       return applyFirstLaunch(state, action);
+    case FIRST_LOGIN:
+      return applyFirstLogin(state, action);
     default:
       return state;
   }
@@ -99,12 +112,21 @@ function applyFirstLaunch(state, action) {
     isFirstLaunch: false
   };
 }
+
+function applyFirstLogin(state, action) {
+  return {
+    ...state,
+    isFirstLogin: false
+  };
+}
+
 // Exports
 
 const actionCreators = {
   facebookLogin,
   googleLogin,
-  firstLaunch
+  firstLaunch,
+  firstLogin
 };
 
 export { actionCreators };

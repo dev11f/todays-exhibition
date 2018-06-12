@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Camera, Permissions } from "expo";
 import { MaterialIcons } from "@expo/vector-icons";
+import FitImage from "react-native-fit-image";
 
 class CameraScreen extends Component {
   state = {
@@ -57,7 +58,9 @@ class CameraScreen extends Component {
         <View style={styles.container}>
           <StatusBar hidden={true} />
           {pictureTaken ? (
-            <View />
+            <View style={{ flex: 3 }}>
+              <FitImage source={{ uri: picture }} style={{ flex: 1 }} />
+            </View>
           ) : (
             <Camera
               type={type}
@@ -72,10 +75,10 @@ class CameraScreen extends Component {
           <View style={styles.btnContainer}>
             {pictureTaken ? (
               <View style={styles.photoActions}>
-                <TouchableOpacity>
+                <TouchableOpacity onPressOut={this._rejectPhoto}>
                   <MaterialIcons name={"cancel"} size={60} color={"black"} />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPressOut={this._approvePhoto}>
                   <MaterialIcons
                     name={"check-circle"}
                     size={60}
@@ -105,7 +108,7 @@ class CameraScreen extends Component {
                   </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPressOut={this._takePhoto}>
                   <View style={styles.btn} />
                 </TouchableOpacity>
 
@@ -157,6 +160,46 @@ class CameraScreen extends Component {
       } else if (prevState.flash === Camera.Constants.FlashMode.auto) {
         return { flash: Camera.Constants.FlashMode.off };
       }
+    });
+  };
+
+  _takePhoto = async () => {
+    const { pictureTaken } = this.state;
+    if (!pictureTaken) {
+      if (this.camera) {
+        const takenPhoto = await this.camera.takePictureAsync({
+          quality: 0.7,
+          exif: true
+        });
+
+        console.log("takenPhoto", takenPhoto);
+        console.log("photo exif", takenPhoto.exif);
+
+        this.setState({
+          picture: takenPhoto.uri,
+          pictureTaken: true
+        });
+      }
+    }
+  };
+
+  _rejectPhoto = () => {
+    this.setState({
+      picture: null,
+      pictureTaken: false
+    });
+  };
+
+  _approvePhoto = async () => {
+    const { picture } = this.state;
+    const {
+      navigation: { navigate }
+    } = this.props;
+    // 내 폰에 저장
+    navigate("UploadPhoto", { url: picture });
+    this.setState({
+      picture: null,
+      pictureTaken: false
     });
   };
 }

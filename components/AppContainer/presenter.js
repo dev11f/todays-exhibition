@@ -31,6 +31,7 @@ const slides = [
 class AppContainer extends Component {
   static propTypes = {
     isLoggedIn: PropTypes.bool.isRequired,
+    isFirstLogin: PropTypes.bool.isRequired,
     isFirstLaunch: PropTypes.bool.isRequired,
     firstLaunch: PropTypes.func.isRequired
   };
@@ -41,21 +42,19 @@ class AppContainer extends Component {
       // initApp() : 여러가지 데이터 불러오기
     }
   }
-  _onDone = () => {
-    const { firstLaunch, isFirstLaunch } = this.props;
-    firstLaunch();
-    console.log("isFirstLauch", isFirstLaunch);
-  };
 
   render() {
-    const { isLoggedIn, isFirstLaunch, profile } = this.props;
+    const { isLoggedIn, isFirstLogin, isFirstLaunch, profile } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
         {!isLoggedIn ? (
-          <CheckProfileScreen />
-        ) : // <RootNavigation />
-        isFirstLaunch ? (
+          !isFirstLogin ? (
+            <CheckProfileScreen />
+          ) : (
+            <RootNavigation />
+          )
+        ) : isFirstLaunch ? (
           <AppIntroSlider
             slides={slides}
             onDone={this._onDone}
@@ -70,6 +69,12 @@ class AppContainer extends Component {
       </View>
     );
   }
+
+  _onDone = () => {
+    const { firstLaunch, isFirstLaunch } = this.props;
+    firstLaunch();
+    console.log("isFirstLauch", isFirstLaunch);
+  };
 }
 
 const styles = StyleSheet.create({

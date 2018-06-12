@@ -7,7 +7,8 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  Keyboard
+  Keyboard,
+  ActivityIndicator
 } from "react-native";
 import PropTypes from "prop-types";
 const { width, height } = Dimensions.get("window");
@@ -31,7 +32,11 @@ const CheckProfileScreen = props => (
     <View style={styles.profileContainer}>
       <View>
         <Image
-          source={require("../../assets/images/noPhoto.jpg")}
+          source={
+            props.avatar
+              ? { uri: props.avatar }
+              : require("../../assets/images/noPhoto.jpg")
+          }
           style={styles.profile_avatar}
           // resizeMode={"cover"}
         />
@@ -65,18 +70,28 @@ const CheckProfileScreen = props => (
         enablesReturnKeyAutomatically={true}
         maxLength={10}
         // onBlur={() => console.log("blur")}
+        onChangeText={props.handleUsername}
       />
     </View>
 
     <View style={styles.btnContainer}>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.btnText}>입 장</Text>
+      <TouchableOpacity style={styles.button} onPressOut={props.submit}>
+        {props.isSubmitting ? (
+          <ActivityIndicator color="white" />
+        ) : (
+          <Text style={styles.btnText}>입 장</Text>
+        )}
       </TouchableOpacity>
     </View>
   </View>
 );
 
-CheckProfileScreen.propTypes = {};
+CheckProfileScreen.propTypes = {
+  handleAvatar: PropTypes.func.isRequired,
+  handleUsername: PropTypes.func.isRequired,
+  submit: PropTypes.func.isRequired,
+  isSubmitting: PropTypes.bool.isRequired
+};
 
 const styles = StyleSheet.create({
   container: {

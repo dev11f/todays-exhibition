@@ -1,8 +1,10 @@
 import React from "react";
-import { Button } from "react-native";
+import { Button, Text } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import TabsNavigation from "./TabsNavigation";
 import CameraScreen from "../screens/CameraScreen";
+import UploadScreen from "../screens/UploadScreen";
+import BackButton from "../components/BackButton";
 
 const RootNavigation = createStackNavigator(
   {
@@ -16,6 +18,18 @@ const RootNavigation = createStackNavigator(
       screen: CameraScreen,
       navigationOptions: {
         header: null
+      }
+    },
+    UploadPhoto: {
+      screen: UploadScreen,
+      navigationOptions: {
+        headerLeft: props => <BackButton {...props} />,
+
+        headerTitle: (
+          <Text style={{ fontFamily: "noto-sans-bold", fontSize: 15 }}>
+            출품하기
+          </Text>
+        )
       }
     }
 
