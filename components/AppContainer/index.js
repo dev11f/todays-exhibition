@@ -1,14 +1,17 @@
 import { connect } from "react-redux";
 import AppContainer from "./presenter";
-import { actionCreators as userActions } from "../../redux//modules/user";
+import { actionCreators as userActions } from "../../redux/modules/user";
+import { actionCreators as themeActions } from "../../redux/modules/theme";
 
 const mapStateToProps = (state, ownProps) => {
-  const { user } = state;
+  const { user, theme } = state;
+  console.log("lnsflknaslkfas", user);
   return {
     isLoggedIn: user.isLoggedIn,
     isFirstLogin: user.isFirstLogin,
     isFirstLaunch: user.isFirstLaunch,
-    profile: user.profile
+    profile: user.profile,
+    theme: theme.theme
   };
 };
 
@@ -16,6 +19,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     firstLaunch: () => {
       return dispatch(userActions.firstLaunch());
+    },
+    getTheme: () => {
+      return dispatch(themeActions.getTheme());
     }
   };
 };

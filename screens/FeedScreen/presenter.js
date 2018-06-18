@@ -51,11 +51,7 @@ const FeedScreen = props => (
         >
           <Ionicons name={"md-camera"} style={styles.actionBtnIcon} />
         </ActionButton.Item>
-        <ActionButton.Item
-          onPress={() => {
-            console.log("앨범");
-          }}
-        >
+        <ActionButton.Item onPress={props.openCameraRoll}>
           <Ionicons name={"md-film"} style={styles.actionBtnIcon} />
         </ActionButton.Item>
       </ActionButton>

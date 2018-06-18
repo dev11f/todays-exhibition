@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import FeedbackScreen from "../screens/FeedbackSreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import BackButton from "../components/BackButton";
 
@@ -33,12 +34,20 @@ const ProfileRoute = createStackNavigator({
       )
     })
   },
+
   Settings: {
     screen: SettingsScreen,
     navigationOptions: {
       headerLeft: props => <BackButton {...props} />,
-
       headerTitle: <Text>설정</Text>
+    }
+  },
+
+  Feedback: {
+    screen: FeedbackScreen,
+    navigationOptions: {
+      headerLeft: props => <BackButton {...props} />,
+      headerTitle: <Text>피드백</Text>
     }
   }
 });

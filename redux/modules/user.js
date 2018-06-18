@@ -74,6 +74,29 @@ function googleLogin() {
   };
 }
 
+function feedback(feedback) {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    return fetch(`${API_URL}/images/${photoId}/unlikes/`, {
+      method: "POST",
+      headers: {
+        Authorization: `JWT ${token}`
+      },
+      body: feedback
+    }).then(response => {
+      if (response.status === 401) {
+        dispatch(userActions.logOut());
+      } else if (response.ok) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  };
+}
+
 // Initial State
 const initialState = {
   isLoggedIn: false,

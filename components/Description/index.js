@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const Description = props => (
-  <Card>
+  <Card style={{ padding: 3 }}>
     <CardItem>
       <View style={styles.container}>
         <View style={{ flex: 3 }}>
@@ -19,7 +19,6 @@ const Description = props => (
               <Ionicons name={"md-more"} size={15} />
             </View>
           </TouchableOpacity>
-
           <TouchableOpacity>
             <Image
               source={require("../../assets/images/arrow.png")}

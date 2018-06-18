@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const PhotoActions = props => (
   <View style={styles.container}>
     <View style={styles.actions}>
-      {props.like_flag === 1 ? (
+      {props.isLiked === 1 ? (
         <TouchableOpacity>
           <View>
             <Image
@@ -26,12 +26,14 @@ const PhotoActions = props => (
         </TouchableOpacity>
       )}
       <View style={styles.action}>
-        <Text style={styles.number}>{props.likes}</Text>
+        <Text style={props.isLiked ? styles.activeNumber : styles.number}>
+          {props.likes}
+        </Text>
       </View>
     </View>
 
     <View style={styles.actions}>
-      {props.hate_flag === 1 ? (
+      {props.isHated === 1 ? (
         <TouchableOpacity>
           <View>
             <Image
@@ -51,7 +53,9 @@ const PhotoActions = props => (
         </TouchableOpacity>
       )}
       <View style={styles.action}>
-        <Text style={styles.number}>{props.hates}</Text>
+        <Text style={props.isHated ? styles.activeNumber : styles.number}>
+          {props.hates}
+        </Text>
       </View>
     </View>
   </View>
@@ -60,21 +64,25 @@ const PhotoActions = props => (
 const styles = StyleSheet.create({
   container: {
     marginTop: 5,
-    marginHorizontal: 10,
-    flexDirection: "row"
+    marginHorizontal: 40,
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
 
   actions: {
-    flexDirection: "row",
-    marginRight: 10,
     justifyContent: "center",
     alignItems: "center"
   },
   action: {
+    marginTop: 4,
     marginHorizontal: 5
   },
   number: {
     fontSize: 12
+  },
+  activeNumber: {
+    fontSize: 12,
+    fontWeight: "800"
   }
 });
 

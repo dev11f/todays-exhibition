@@ -8,7 +8,7 @@ import BackButton from "../components/BackButton";
 const HomeRoute = createStackNavigator({
   Home: {
     screen: FeedScreen,
-    navigationOptions: {
+    navigationOptions: ({ screenProps }) => ({
       headerTitle: (
         <Text>
           오늘의 주제:{" "}
@@ -18,15 +18,15 @@ const HomeRoute = createStackNavigator({
               fontSize: 15
             }}
           >
-            음식
+            {screenProps.theme}
           </Text>
         </Text>
       )
-    }
+    })
   },
   Comments: {
     screen: CommentsScreen,
-    navigationOptions: {
+    navigationOptions: ({ screenProps }) => ({
       headerLeft: props => <BackButton {...props} />,
       headerTitle: (
         <Text>
@@ -37,11 +37,11 @@ const HomeRoute = createStackNavigator({
               fontSize: 15
             }}
           >
-            음식
+            {screenProps.theme}
           </Text>
         </Text>
       )
-    }
+    })
   }
 });
 

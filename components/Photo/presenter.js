@@ -15,6 +15,7 @@ import Description from "../Description";
 import PhotoActions from "../PhotoActions";
 import { withNavigation } from "react-navigation";
 const { width, height } = Dimensions.get("window");
+import FitImage from "react-native-fit-image";
 
 const Photo = props => (
   <View style={styles.container}>
@@ -33,20 +34,18 @@ const Photo = props => (
     >
       <View style={styles.imageContainer}>
         <FadeIn>
-          <Image
+          <FitImage
             source={
               props.content
                 ? { uri: props.content }
                 : require("../../assets/images/photoPlaceholder.png")
             }
-            // defaultSource={require("../../assets/images/photoPlaceholder.png")}
-            style={styles.image}
-            borderWidth={StyleSheet.hairlineWidth}
-            resizeMode={"contain"}
+            defaultSource={require("../../assets/images/photoPlaceholder.png")}
           />
         </FadeIn>
       </View>
     </TouchableOpacity>
+
     <View style={styles.photoMeta}>
       <View style={styles.photoActions}>
         <PhotoActions
@@ -98,14 +97,32 @@ const Photo = props => (
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    width: width - 15,
+    alignSelf: "center"
   },
   imageContainer: {
-    flex: 1
-    // alignSelf: "center"
+    flex: 1,
+    alignSelf: "center",
     // overflow: "hidden"
-    // width: width - 60,
-    // height: 500
+    width: width - 30,
+    borderWidth: 12,
+    borderColor: "#f9f9f9",
+
+    ...Platform.select({
+      ios: {
+        shadowColor: "rgb(50, 50, 50)",
+        shadowOpacity: 0.2,
+        shadowRadius: 2,
+        shadowOffset: {
+          height: 1,
+          width: 0
+        }
+      },
+      android: {
+        elevation: 3
+      }
+    })
   },
 
   image: {
@@ -138,8 +155,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   description: {
-    flex: 1.8,
-    marginRight: 7,
+    flex: 1.5,
+    marginRight: 0,
     marginTop: -40
   },
   comments: {

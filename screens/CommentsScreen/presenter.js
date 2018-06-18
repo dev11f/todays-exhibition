@@ -1,18 +1,31 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Dimensions
+} from "react-native";
+import FitImage from "react-native-fit-image";
 import PropTypes from "prop-types";
-import Photo from "../../components/Photo";
+const { width, height } = Dimensions.get("window");
 
 const CommentsScreen = props => (
-  <View style={styles.container}>
-    <Photo {...props} />
-  </View>
+  <KeyboardAvoidingView style={styles.container}>
+    <View style={styles.imageContainer}>
+      <FitImage source={{ uri: props.content }} />
+    </View>
+  </KeyboardAvoidingView>
 );
 CommentsScreen.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: "white"
+  },
+  imageContainer: {
+    width
   }
 });
 

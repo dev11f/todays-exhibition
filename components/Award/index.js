@@ -1,13 +1,26 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import PropTypes from "prop-types";
+const { width } = Dimensions.get("window");
 
 const Award = props => (
   <View style={styles.container}>
-    <View style={styles.header}>
-      <Text style={styles.title}>유병재</Text>
-      <Text style={styles.date}>2018년 6월 5일</Text>
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        flex: 0.3
+        // marginTop: 50
+      }}
+    >
+      <View style={styles.lines} />
+      <Text style={styles.lineText}>2018년 6월 5일</Text>
+      <View style={styles.lines} />
     </View>
+
+    <Text style={styles.title}>유병재</Text>
+
     <View style={styles.prizeWinners}>
       <View style={styles.prizeWinner}>
         <Image
@@ -71,22 +84,26 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 10,
     paddingBottom: 15,
-    marginTop: 20,
-    borderBottomWidth: 0.5,
-    borderBottomColor: "#7f7f7f"
+    marginTop: 20
   },
-  header: {
-    flexDirection: "row",
+
+  lines: {
+    backgroundColor: "#A2A2A2",
+    height: StyleSheet.hairlineWidth,
+    width: width / 2 - 70
+  },
+  lineText: {
+    fontFamily: "noto-sans-bold",
+    fontSize: 12,
     marginHorizontal: 10,
-    height: 50,
-    justifyContent: "space-between",
-    alignItems: "baseline"
+    color: "#A2A2A2"
   },
   title: {
     fontFamily: "noto-sans-bold",
-    fontSize: 25
+    fontSize: 25,
+    marginHorizontal: 10,
+    marginVertical: 15
   },
-  date: { fontSize: 12 },
   prizeWinners: {
     marginTop: 5,
     flexDirection: "row",

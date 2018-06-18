@@ -7,6 +7,7 @@ class Container extends Component {
   static propTypes = {};
 
   render() {
+    console.log(this.props);
     return <CommentsScreen {...this.props.navigation.state.params} />;
   }
 }

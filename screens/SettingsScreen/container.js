@@ -22,7 +22,11 @@ class Presenter extends Component {
             <ListItem itemDivider>
               <Text />
             </ListItem>
-            <ListItem>
+            <ListItem
+              onPressOut={() => {
+                this.props.navigation.navigate("Feedback");
+              }}
+            >
               <Left>
                 <Text>피드백</Text>
               </Left>
