@@ -4,8 +4,9 @@ import { actionCreators as userActions } from "../../redux/modules/user";
 import { actionCreators as themeActions } from "../../redux/modules/theme";
 
 const mapStateToProps = (state, ownProps) => {
-  const { user, theme } = state;
-  console.log("lnsflknaslkfas", user);
+  const { user, theme, photos } = state;
+  // console.log("user redux", user);
+  // console.log("photo redux", photos);
   return {
     isLoggedIn: user.isLoggedIn,
     isFirstLogin: user.isFirstLogin,

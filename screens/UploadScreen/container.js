@@ -58,11 +58,37 @@ class Container extends Component {
       captionLengthAvailable: 20 - text.length,
       caption: text
     });
-    console.log(captionLengthAvailable);
   };
 
-  _submitArt = () => {
-    console.log("submit art");
+  _submitArt = async () => {
+    const { caption } = this.state;
+    const {
+      submit,
+      navigation,
+      navigation: {
+        state: {
+          params: { url }
+        }
+      }
+    } = this.props;
+
+    if (caption) {
+      // caption 없으면 무제로???
+      this.setState({
+        isSubmitting: true
+      });
+
+      const response = await fetch(url);
+      const blob = await response.blob();
+
+      const uploadResult = await submit(blob, caption);
+
+      console.log("uploadResult", uploadResult);
+
+      if (uploadResult) {
+        navigation.popToTop();
+      }
+    }
   };
 }
 

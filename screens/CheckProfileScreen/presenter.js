@@ -60,7 +60,7 @@ const CheckProfileScreen = props => (
       />
 
       <TextInput
-        value={"국형빈빈"}
+        value={props.username}
         style={styles.profile_username}
         returnKeyType={"done"}
         autoCapitalize={"none"}

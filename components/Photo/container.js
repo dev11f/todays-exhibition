@@ -6,7 +6,7 @@ import Photo from "./presenter";
 class Container extends PureComponent {
   constructor(props) {
     super(props);
-    // console.log("content", props);
+    console.log("photo component content", props);
     this.state = {
       isLiked: props.like_flag,
       isHated: props.hate_flag

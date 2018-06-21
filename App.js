@@ -5,14 +5,16 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/es/integration/react";
 import configureStore from "./redux//configureStore";
 const { persistor, store } = configureStore();
-import { firebaseConfig } from "./constants";
+import { firebaseConfig, awsConfig } from "./constants";
 import * as firebase from "firebase";
+import Amplify, { Storage } from "aws-amplify";
 
 // store.dispatch({ type: "LOG_OUT" });
 // persistor.purge();
 
 // 이걸 켤때마다 해야하나? 로그인페이지에 넣고 로그인할 때만 해두면 안되나
 firebase.initializeApp(firebaseConfig);
+Amplify.configure(awsConfig);
 
 class App extends React.Component {
   state = {
@@ -30,6 +32,7 @@ class App extends React.Component {
         />
       );
     }
+
     return (
       <Provider store={store}>
         <PersistGate persistor={persistor}>

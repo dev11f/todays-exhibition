@@ -49,7 +49,10 @@ const LogInScreen = props => (
         </View>
 
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPressOut={() => console.log("instagram login")}
+          >
             <Image
               source={require("../../assets/images/instagram.png")}
               style={styles.buttonImage2}
@@ -69,7 +72,10 @@ const LogInScreen = props => (
         </View>
 
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPressOut={() => console.log("kakao login")}
+          >
             <Image
               source={require("../../assets/images/kakao.png")}
               style={styles.buttonImage3}

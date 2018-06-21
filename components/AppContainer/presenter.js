@@ -56,8 +56,8 @@ class AppContainer extends Component {
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
-        {!isLoggedIn ? (
-          !isFirstLogin ? (
+        {isLoggedIn ? (
+          isFirstLogin ? (
             <CheckProfileScreen />
           ) : (
             <RootNavigation screenProps={{ theme }} />
@@ -81,7 +81,6 @@ class AppContainer extends Component {
   _onDone = () => {
     const { firstLaunch, isFirstLaunch } = this.props;
     firstLaunch();
-    console.log("isFirstLauch", isFirstLaunch);
   };
 }
 

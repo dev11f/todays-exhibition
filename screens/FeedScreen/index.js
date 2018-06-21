@@ -6,6 +6,7 @@ const mapStateToProps = (state, ownProps) => {
   const {
     photos: { feed }
   } = state;
+
   return { feed };
 };
 

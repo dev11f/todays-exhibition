@@ -51,7 +51,7 @@ const UploadScreen = props => (
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "white" },
-  photoContainer: { width: width - 100, alignSelf: "center" },
+  photoContainer: { width },
   photo: { flex: 1 },
   textContainer: {
     marginTop: 20,

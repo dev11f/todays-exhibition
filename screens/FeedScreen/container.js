@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import FeedScreen from "./presenter";
 import { randomImages } from "../../util";
 import { ImagePicker, Permissions } from "expo";
+import { Alert } from "react-native";
 
 // FlatList는 PureComponent랑???
 class Container extends PureComponent {
@@ -14,7 +15,7 @@ class Container extends PureComponent {
   state = {
     isRefreshing: false,
     isScrolling: false,
-    hasCameraRollPermissions: null,
+    // hasCameraRollPermissions: null,
     image: null
   };
 
@@ -49,27 +50,27 @@ class Container extends PureComponent {
     const {
       navigation: { navigate }
     } = this.props;
-    const { hasCameraRollPermissions, image } = this.state;
-    const cameraRoll = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    this.setState({
-      hasCameraRollPermissions: cameraRoll.status === "granted"
-    });
+    const { image } = this.state;
 
-    if (hasCameraRollPermissions === false) {
-      Alert.alert("앨범 접근 권한이 없습니다");
-    } else if (hasCameraRollPermissions === null) {
-      console.log("null");
-      return;
-    } else if (hasCameraRollPermissions === true) {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+    if (status === "granted") {
       let result = await ImagePicker.launchImageLibraryAsync({
-        // allowsEditing: true
-        // aspect: [1, 1]
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.7
       });
-
       if (!result.cancelled) {
         // this.setState({ image: result.uri });
         navigate("UploadPhoto", { url: result.uri });
       }
+    } else if (status !== "granted") {
+      Alert.alert(
+        "앨범 접근 권한이 없습니다. 설정에 가서 앨범 권한을 승인해주세요!"
+      );
+    } else {
+      console.log("status null");
+      return;
     }
   };
 

@@ -16,7 +16,12 @@ const ProfileScreen = props => (
     <View style={styles.container}>
       <View style={styles.profile}>
         <Image
-          source={require("../../assets/images/noPhoto.jpg")}
+          source={
+            props.profile.avatar
+              ? { uri: props.profile.avatar }
+              : require("../../assets/images/noPhoto.jpg")
+          }
+          defaultSource={require("../../assets/images/noPhoto.jpg")}
           style={styles.profile_avatar}
           // resizeMode={"cover"}
         />
@@ -25,7 +30,7 @@ const ProfileScreen = props => (
 
         <TextInput
           // placeholder={props.user.username}
-          value={props.user.username}
+          value={props.profile.nickname}
           style={styles.profile_username}
           returnKeyType={"done"}
           autoCapitalize={"none"}
@@ -46,7 +51,7 @@ const ProfileScreen = props => (
               borderColor: "#f8cf47"
             }}
           >
-            <Text style={styles.points}>1350</Text>
+            <Text style={styles.points}>{props.profile.point}</Text>
           </View>
         </View>
       </View>
@@ -92,7 +97,7 @@ const styles = StyleSheet.create({
 
 ProfileScreen.propTypes = {
   // object 안에 내용까지 체크하기
-  user: PropTypes.object.isRequired,
+  // user: PropTypes.object.isRequired,
   changeAvatar: PropTypes.func.isRequired,
   changeUsername: PropTypes.func.isRequired
 };

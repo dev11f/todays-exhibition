@@ -171,10 +171,6 @@ class CameraScreen extends Component {
           quality: 0.7,
           exif: true
         });
-
-        console.log("takenPhoto", takenPhoto);
-        console.log("photo exif", takenPhoto.exif);
-
         this.setState({
           picture: takenPhoto.uri,
           pictureTaken: true

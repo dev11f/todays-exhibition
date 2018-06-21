@@ -5,15 +5,28 @@ import { ImagePicker, Permissions } from "expo";
 import { Alert } from "react-native";
 
 class Container extends Component {
-  state = {
-    hasCameraRollPermissions: null,
-    username: null,
-    avatar: null,
-    isSubmitting: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: null,
+      avatar: null,
+      isSubmitting: false
+    };
+  }
 
   static propTypes = {
+    // profile: PropTypes.object.isRequired,
     firstLogin: PropTypes.func.isRequired
+  };
+
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.profile) {
+      console.log("늦게 로딩");
+      this.setState({
+        username: nextProps.profile.nickname,
+        avatar: nextProps.profile.avatar
+      });
+    }
   };
 
   render() {
@@ -33,39 +46,43 @@ class Container extends Component {
   };
 
   _handleAvatar = async () => {
-    const { hasCameraRollPermissions, avatar } = this.state;
-    const cameraRoll = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    this.setState({
-      hasCameraRollPermissions: cameraRoll.status === "granted"
-    });
+    const { avatar } = this.state;
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
-    if (hasCameraRollPermissions === false) {
-      Alert.alert("앨범 접근 권한이 없습니다");
-    } else if (hasCameraRollPermissions === null) {
-      console.log("null");
-      return;
-    } else if (hasCameraRollPermissions === true) {
+    if (status === "granted") {
       let result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
-        aspect: [1, 1]
+        aspect: [1, 1],
+        quality: 0.3
       });
 
       if (!result.cancelled) {
         this.setState({ avatar: result.uri });
       }
+    } else if (status !== "granted") {
+      Alert.alert(
+        "앨범 접근 권한이 없습니다. 설정에 가서 앨범 권한을 승인해주세요!"
+      );
+    } else {
+      return;
     }
   };
 
   _submit = async () => {
     const { username, avatar } = this.state;
+    const { firstLogin, uploadProfile, profile } = this.props;
     if (username && avatar) {
       this.setState({
         isSubmitting: true
       });
 
-      // 서버 보내기
-      console.log("username : ", username, "avatar :", avatar);
-      firstLogin();
+      const response = await fetch(avatar);
+      const blob = await response.blob();
+
+      const uploadProfileResult = await uploadProfile(blob, username);
+      if (uploadProfileResult) {
+        firstLogin();
+      }
     }
   };
 }
