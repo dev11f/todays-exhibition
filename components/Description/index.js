@@ -5,12 +5,14 @@ import PropTypes from "prop-types";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const Description = props => (
-  <Card style={{ padding: 3 }}>
+  <Card style={{ paddingLeft: 6, paddingVertical: 3 }}>
     <CardItem>
       <View style={styles.container}>
-        <View style={{ flex: 3 }}>
-          <Text style={styles.title}>{props.title}</Text>
-          <Text style={styles.author}>{props.username}</Text>
+        <View style={styles.description}>
+          {/* <Text style={styles.title}>{props.title}</Text>
+          <Text style={styles.author}>{props.username}</Text> */}
+          <Text style={styles.title}>작품명이 무엇일까 가나다라마바하하하</Text>
+          <Text style={styles.author}>작가명</Text>
         </View>
 
         <View style={styles.options}>
@@ -36,8 +38,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row"
   },
+  description: {
+    flex: 4
+  },
   options: {
-    flex: 0.3,
+    flex: 1,
     justifyContent: "space-between",
     alignItems: "flex-end"
   },
@@ -47,7 +52,7 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   author: {
-    marginTop: 10,
+    marginTop: 15,
     fontSize: 12
   }
 });

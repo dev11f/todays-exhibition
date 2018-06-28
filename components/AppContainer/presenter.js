@@ -33,16 +33,14 @@ class AppContainer extends Component {
     isLoggedIn: PropTypes.bool.isRequired,
     isFirstLogin: PropTypes.bool.isRequired,
     isFirstLaunch: PropTypes.bool.isRequired,
-    firstLaunch: PropTypes.func.isRequired,
-    getTheme: PropTypes.func.isRequired
+    firstLaunch: PropTypes.func.isRequired
   };
 
   componentDidMount() {
-    const { isLoggedIn, getTheme } = this.props;
+    const { isLoggedIn, initApp, getTheme } = this.props;
     if (isLoggedIn) {
-      // initApp() : 여러가지 데이터 불러오기
+      getTheme();
     }
-    getTheme();
   }
 
   render() {
@@ -60,6 +58,8 @@ class AppContainer extends Component {
           isFirstLogin ? (
             <CheckProfileScreen />
           ) : (
+            // <CheckProfileScreen />
+            // <LoggedOutNavigation />
             <RootNavigation screenProps={{ theme }} />
           )
         ) : isFirstLaunch ? (

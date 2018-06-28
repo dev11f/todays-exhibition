@@ -1,22 +1,32 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator
+} from "react-native";
 import PropTypes from "prop-types";
 import UploadScreen from "./presenter";
 
 class Container extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
+
     return {
       headerRight: (
-        <TouchableOpacity onPressOut={() => params.submitArt()}>
-          <View>
-            <Image
-              source={require("../../assets/images/ok.png")}
-              style={{ paddingHorizontal: 25, width: 20, height: 20 }}
-              resizeMode={"contain"}
-            />
-          </View>
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity onPressOut={() => params.submitArt()}>
+            <View>
+              <Image
+                source={require("../../assets/navigationbar/ok.png")}
+                style={{ paddingHorizontal: 25, width: 20, height: 20 }}
+                resizeMode={"contain"}
+              />
+            </View>
+          </TouchableOpacity>
+          )}
+        </View>
       )
     };
   };
@@ -29,8 +39,10 @@ class Container extends Component {
 
   componentDidMount() {
     const { navigation } = this.props;
+    const { isSubmitting } = this.state;
     navigation.setParams({
-      submitArt: this._submitArt
+      submitArt: this._submitArt,
+      isSubmitting: isSubmitting
     });
   }
 

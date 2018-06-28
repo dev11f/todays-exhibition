@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import FeedScreen from "./presenter";
 import { randomImages } from "../../util";
 import { ImagePicker, Permissions } from "expo";
-import { Alert } from "react-native";
+import { Alert, PanResponder } from "react-native";
+import { ConsoleLogger } from "aws-amplify";
 
 // FlatList는 PureComponent랑???
 class Container extends PureComponent {
@@ -15,8 +16,21 @@ class Container extends PureComponent {
   state = {
     isRefreshing: false,
     isScrolling: false,
-    // hasCameraRollPermissions: null,
-    image: null
+    image: null,
+    sortingBy: "likes"
+    // likes , time,
+  };
+
+  componentWillMount = () => {
+    this._pandResponder = PanResponder.create({
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => true
+    });
+
+    console.log("what time is it now", new Date().getHours());
+    if (new Date().getHours() === 17) {
+      console.log("It's 5pm right now");
+    }
   };
 
   componentDidMount = () => {
@@ -24,24 +38,27 @@ class Container extends PureComponent {
     getFeed();
   };
 
-  // componentWillReceiveProps = nextProps => {
-  //   if (nextProps.images) {
-  //     this.setState({
-  //       isRefreshing: false
-  //     });
-  //   }
-  // };
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.feed) {
+      this.setState({
+        isRefreshing: false
+      });
+    }
+  };
 
   render() {
     return (
       <FeedScreen
         {...this.props}
         {...this.state}
+        {...this._pandResponder.panHandlers}
         onRefresh={this._onRefresh}
         onEndReached={this._onEndReached}
         scrollBegin={this._scrollBegin}
         scrollEnd={this._scrollEnd}
         openCameraRoll={this._openCameraRoll}
+        sortByTime={this._sortByTime}
+        sortByLikes={this._sortByLikes}
       />
     );
   }
@@ -75,13 +92,11 @@ class Container extends PureComponent {
   };
 
   _onRefresh = async () => {
-    await this.setState({
-      isRefreshing: true
-      // images: randomImages(20)
-    });
+    const { getFeed } = this.props;
     this.setState({
-      isRefreshing: false
+      isRefreshing: true
     });
+    getFeed();
   };
 
   _onEndReached = () => {
@@ -100,6 +115,24 @@ class Container extends PureComponent {
     this.setState({
       isScrolling: false
     });
+  };
+
+  _sortByLikes = () => {
+    const { sortingBy } = this.state;
+    if (sortingBy !== "likes") {
+      this.setState({
+        sortingBy: "likes"
+      });
+    }
+  };
+
+  _sortByTime = () => {
+    const { sortingBy } = this.state;
+    if (sortingBy !== "time") {
+      this.setState({
+        sortingBy: "time"
+      });
+    }
   };
 }
 

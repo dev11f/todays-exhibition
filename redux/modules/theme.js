@@ -17,10 +17,13 @@ function setTheme(theme) {
 // API Actions
 function getTheme() {
   return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+
     fetch(`${API_URL}/themes`, {
       headers: {
-        authorizationToken:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyNiwidWlkIjoiMTFrYWtja2N2MDEtdWxrc2pkbGtqd29va2llY29va3NkaWVAZ21haWwuY29tIiwiZW1haWwiOiJ3b29raWVjb29rc2RpZUBnbWFpbC5jb20iLCJ0eXBlIjoiZmFjZWJvb2siLCJuaWNrbmFtZSI6ImhlbGVsZWxlbGUiLCJyZXBvcnRlZCI6bnVsbCwiYXZhdGFyIjoidW5kZWZpbmVkIn0sImlhdCI6MTUyODM5MzA2OSwiZXhwIjoxNTM3MDMzMDY5fQ.FNs-8jNl9vlFJyckkvsxFOAdzkfQZp3eyUs3rHM9rfc"
+        authorizationToken: token
       }
     })
       .then(response => {

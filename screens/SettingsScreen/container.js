@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import { View, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import {
   Container,
   Content,
@@ -19,13 +19,14 @@ class Presenter extends Component {
       <Container>
         <Content>
           <List>
-            <ListItem itemDivider>
+            <ListItem itemDivider style={styles.itemDivider}>
               <Text />
             </ListItem>
             <ListItem
               onPressOut={() => {
                 this.props.navigation.navigate("Feedback");
               }}
+              style={styles.item}
             >
               <Left>
                 <Text>피드백</Text>
@@ -34,7 +35,7 @@ class Presenter extends Component {
                 <Icon name="arrow-forward" />
               </Right>
             </ListItem>
-            <ListItem itemDivider>
+            <ListItem itemDivider style={styles.itemDivider}>
               <Text />
             </ListItem>
             <ListItem
@@ -43,6 +44,7 @@ class Presenter extends Component {
                   "http://righthere.world/todays_exhibition_terms.html"
                 );
               }}
+              style={styles.item}
             >
               <Left>
                 <Text>이용약관</Text>
@@ -58,6 +60,7 @@ class Presenter extends Component {
                   "http://righthere.world/todays_exhibition_privacy.html"
                 );
               }}
+              style={styles.item}
             >
               <Left>
                 <Text>개인정보처리방침</Text>
@@ -66,10 +69,13 @@ class Presenter extends Component {
                 <Icon name="arrow-forward" />
               </Right>
             </ListItem>
-            <ListItem itemDivider>
+            <ListItem itemDivider style={styles.itemDivider}>
               <Text />
             </ListItem>
-            <ListItem onPressOut={() => console.log("로그아웃")}>
+            <ListItem
+              onPressOut={() => console.log("로그아웃")}
+              style={styles.item}
+            >
               <Left>
                 <Text>로그아웃</Text>
               </Left>
@@ -80,5 +86,16 @@ class Presenter extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  itemDivider: {
+    backgroundColor: "#e9e9ef"
+  },
+  item: {
+    backgroundColor: "white",
+    marginLeft: 0,
+    paddingLeft: 20
+  }
+});
 
 export default Presenter;

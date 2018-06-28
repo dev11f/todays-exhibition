@@ -4,17 +4,29 @@ import { Content, Card, CardItem, Left, Body, Right } from "native-base";
 import PropTypes from "prop-types";
 
 const FeedHeader = props => (
-  // <View>
   <View style={styles.container}>
-    <View style={{ borderRightWidth: 1, borderRightColor: "#7f7f7f" }}>
-      <Text style={styles.Btn}>Like</Text>
-    </View>
-    <View>
-      <Text style={styles.Btn}>Latest</Text>
-    </View>
+    <TouchableOpacity onPressOut={props.sortByLikes}>
+      <View style={{ borderRightWidth: 1, borderRightColor: "#7f7f7f" }}>
+        <Text
+          style={props.sortingBy === "likes" ? styles.BtnActive : styles.Btn}
+        >
+          추천순
+        </Text>
+      </View>
+    </TouchableOpacity>
+    <TouchableOpacity onPressOut={props.sortByTime}>
+      <View>
+        <Text
+          style={props.sortingBy === "time" ? styles.BtnActive : styles.Btn}
+        >
+          최신순
+        </Text>
+      </View>
+    </TouchableOpacity>
   </View>
-  // </View>
 );
+
+FeedHeader.propTpyes = {};
 
 const styles = StyleSheet.create({
   container: {
@@ -25,8 +37,13 @@ const styles = StyleSheet.create({
     marginRight: 5
   },
   Btn: {
-    fontSize: 15,
+    fontSize: 12,
     color: "#7f7f7f",
+    marginHorizontal: 10
+  },
+  BtnActive: {
+    fontSize: 12,
+    color: "black",
     marginHorizontal: 10
   }
 });

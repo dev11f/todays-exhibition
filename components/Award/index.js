@@ -24,12 +24,12 @@ const Award = props => (
     <View style={styles.prizeWinners}>
       <View style={styles.prizeWinner}>
         <Image
-          source={require("../../assets/images/image1.jpeg")}
+          source={require("../../assets/images/photoPlaceholder.png")}
           style={styles.first}
         />
         <View style={styles.medalContainer}>
           <Image
-            source={require("../../assets/images/first.png")}
+            source={require("../../assets/winner/first.png")}
             style={styles.medalIcon}
           />
         </View>
@@ -37,40 +37,40 @@ const Award = props => (
       </View>
       <View style={styles.prizeWinner}>
         <Image
-          source={require("../../assets/images/image1.jpeg")}
+          source={require("../../assets/images/photoPlaceholder.png")}
           style={styles.second}
         />
         <View style={styles.medalContainer}>
           <Image
-            source={require("../../assets/images/second.png")}
+            source={require("../../assets/winner/second.png")}
             style={styles.medalIcon}
           />
         </View>
-        <Text style={styles.prizeName}>최우수</Text>
+        <Text style={styles.prizeName}>최우수상</Text>
       </View>
       <View style={styles.prizeWinner}>
         <Image
-          source={require("../../assets/images/image1.jpeg")}
+          source={require("../../assets/images/photoPlaceholder.png")}
           style={styles.third}
         />
         <View style={styles.medalContainer}>
           <Image
-            source={require("../../assets/images/third.png")}
+            source={require("../../assets/winner/third.png")}
             style={styles.medalIcon}
           />
         </View>
-        <Text style={styles.prizeName}>우수</Text>
+        <Text style={styles.prizeName}>우수상</Text>
       </View>
       <View style={styles.prizeWinner}>
         <Image
-          source={require("../../assets/images/image1.jpeg")}
+          source={require("../../assets/images/photoPlaceholder.png")}
           style={styles.fourth}
         />
         <Text style={styles.prizeName2}>특선</Text>
       </View>
       <View style={styles.prizeWinner}>
         <Image
-          source={require("../../assets/images/image1.jpeg")}
+          source={require("../../assets/images/photoPlaceholder.png")}
           style={styles.fifth}
         />
         <Text style={styles.prizeName2}>입선</Text>
@@ -115,8 +115,8 @@ const styles = StyleSheet.create({
   },
   medalContainer: {
     position: "absolute",
-    top: -10,
-    left: -15
+    top: -8,
+    left: -12
   },
   medalIcon: {
     width: 30,

@@ -14,6 +14,7 @@ const FIRST_LAUNCH = "FIRST_LAUNCH";
 const FIRST_LOGIN = "FIRST_LOGIN";
 const SET_USER = "SET_USER";
 const UPDATE_USER = "UPDATE_USER";
+const UPDATE_USERNAME = "UPDATE_USERNAME";
 
 // Actions Creators
 
@@ -41,6 +42,13 @@ function updateUser(avatar, username) {
   return {
     type: UPDATE_USER,
     avatar,
+    username
+  };
+}
+
+function updateUsername(username) {
+  return {
+    type: UPDATE_USERNAME,
     username
   };
 }
@@ -81,16 +89,13 @@ function facebookLogin() {
               "Content-Type": "application/json"
             },
             body: JSON.stringify({
-              uid: result.user.providerData[0].uid,
-              providerId: result.user.providerData[0].providerId,
-              email: result.user.providerData[0].email,
-              displayName: result.user.providerData[0].displayName,
-              avatar: result.user.providerData[0].photoURL,
-              user_id: result.user.uid
+              uid: result.user.uid
             })
           })
             .then(response => response.json())
+
             .then(json => {
+              console.log(json);
               if (json.user && json.token) {
                 dispatch(setLogIn(json.token));
                 dispatch(setUser(json.user));
@@ -131,17 +136,12 @@ function googleLogin() {
               "Content-Type": "application/json"
             },
             body: JSON.stringify({
-              uid: result.user.providerData[0].uid,
-              providerId: result.user.providerData[0].providerId,
-              email: result.user.providerData[0].email,
-              displayName: result.user.providerData[0].displayName,
-              avatar: result.user.providerData[0].photoURL,
-              user_id: result.user.uid
+              uid: result.user.uid
             })
           })
             .then(response => response.json())
             .then(json => {
-              console.log("facebook login return", json);
+              console.log("google login return", json);
               if (json.user && json.token) {
                 dispatch(setLogIn(json.token));
                 dispatch(setUser(json.user));
@@ -157,26 +157,33 @@ function googleLogin() {
   };
 }
 
-function feedback(feedback) {
+function submitFeedback(feedback) {
   return (dispatch, getState) => {
     const {
       user: { token }
     } = getState();
-    return fetch(`${API_URL}/images/${photoId}/unlikes/`, {
+    return fetch(`${API_URL}/feedback`, {
       method: "POST",
       headers: {
-        Authorization: `JWT ${token}`
+        authorizationToken: token,
+        "Content-Type": "application/json"
       },
-      body: feedback
-    }).then(response => {
-      if (response.status === 401) {
-        dispatch(userActions.logOut());
-      } else if (response.ok) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+      body: JSON.stringify({
+        feedback: feedback
+      })
+    })
+      .then(response => {
+        if (response.status === 401) {
+          dispatch(userActions.logOut());
+        } else if (response.ok) {
+          return response.json().then(json => {
+            return true;
+          });
+        } else {
+          return false;
+        }
+      })
+      .catch(error => console.log("submit feedback error", error));
   };
 }
 
@@ -184,33 +191,67 @@ function uploadProfile(avatar, username) {
   return (dispatch, getState) => {
     return Storage.put(`${new Date().getTime()}-${uuidv1()}.jpg`, avatar, {
       contentType: "image/jepg"
-    }).then(result => {
-      const imageURL = `${S3_URL}/${result.key}`;
-      const {
-        user: { token }
-      } = getState();
+    })
+      .then(result => {
+        const imageURL = `${S3_URL}/${result.key}`;
+        const {
+          user: { token }
+        } = getState();
 
-      return fetch(`${API_URL}/updateUser`, {
-        method: "PUT",
-        headers: {
-          authorizationToken: token,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          avater: imageURL,
-          nickname: username
+        console.log("uploadprofile", imageURL, username);
+
+        return fetch(`${API_URL}/user`, {
+          method: "PUT",
+          headers: {
+            authorizationToken: token,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            avater: imageURL,
+            nickname: username
+          })
         })
-      }).then(response => {
-        if (response.status === 401) {
-          console.log("log out");
-          // dispatch(userActions.logOut());
-        } else if (response.ok) {
-          dispatch(updateUser(imageURL, username));
-          return true;
-        } else {
-          return false;
-        }
-      });
+          .then(response => {
+            console.log("upload profile response", response);
+            if (response.status === 401) {
+              console.log("log out");
+              // dispatch(userActions.logOut());
+            } else if (response.ok) {
+              console.log("upload profile");
+              dispatch(updateUser(imageURL, username));
+              return true;
+            } else {
+              console.log("upload profile false");
+              return false;
+            }
+          })
+          .catch(error => console.log("upload profile error", error));
+      })
+      .catch(error => console.log("upload profile image error", error));
+  };
+}
+
+function updateUsername(username) {
+  return (dispatch, getState) => {
+    return fetch(`${API_URL}/updateUser`, {
+      method: "PUT",
+      headers: {
+        authorizationToken: token,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        nickname: username
+      })
+    }).then(response => {
+      if (response.status === 401) {
+        console.log("log out");
+        // dispatch(userActions.logOut());
+      } else if (response.ok) {
+        dispatch(updateUsername(username));
+        return true;
+      } else {
+        return false;
+      }
     });
   };
 }
@@ -233,6 +274,8 @@ function reducer(state = initialState, action) {
       return applySetUser(state, action);
     case UPDATE_USER:
       return applyUpdateUser(state, action);
+    case UPDATE_USERNAME:
+      return applyUpdateUsername(state, action);
     case FIRST_LAUNCH:
       return applyFirstLaunch(state, action);
     case FIRST_LOGIN:
@@ -273,16 +316,25 @@ function applySetUser(state, action) {
 }
 
 function applyUpdateUser(state, action) {
-  const {
-    profile,
-    profile: { user }
-  } = state;
+  const { profile } = state;
   const { avatar, username } = action;
   return {
     ...state,
     profile: {
       ...profile,
       avatar: avatar,
+      nickname: username
+    }
+  };
+}
+
+function applyUpdateUsername(state, action) {
+  const { profile } = state;
+  const { username } = action;
+  return {
+    ...state,
+    profile: {
+      ...profile,
       nickname: username
     }
   };
@@ -309,7 +361,9 @@ const actionCreators = {
   googleLogin,
   firstLaunch,
   firstLogin,
-  uploadProfile
+  uploadProfile,
+  submitFeedback,
+  updateUsername
 };
 
 export { actionCreators };

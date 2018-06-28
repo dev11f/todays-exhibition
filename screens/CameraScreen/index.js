@@ -9,13 +9,12 @@ import {
   TouchableOpacity
 } from "react-native";
 import { Camera, Permissions } from "expo";
-import { MaterialIcons } from "@expo/vector-icons";
 import FitImage from "react-native-fit-image";
 
 class CameraScreen extends Component {
   state = {
     hasCameraPermissions: null,
-    type: Camera.Constants.Type.front,
+    type: Camera.Constants.Type.back,
     flash: Camera.Constants.FlashMode.off,
     pictureTaken: false,
     picture: null
@@ -58,7 +57,7 @@ class CameraScreen extends Component {
         <View style={styles.container}>
           <StatusBar hidden={true} />
           {pictureTaken ? (
-            <View style={{ flex: 3 }}>
+            <View style={{ flex: 2 }}>
               <FitImage source={{ uri: picture }} style={{ flex: 1 }} />
             </View>
           ) : (
@@ -76,34 +75,28 @@ class CameraScreen extends Component {
             {pictureTaken ? (
               <View style={styles.photoActions}>
                 <TouchableOpacity onPressOut={this._rejectPhoto}>
-                  <MaterialIcons name={"cancel"} size={60} color={"black"} />
+                  <View>
+                    <Image
+                      source={require("../../assets/camera/cancel.png")}
+                      style={{ width: 40, height: 40 }}
+                    />
+                  </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPressOut={this._approvePhoto}>
-                  <MaterialIcons
-                    name={"check-circle"}
-                    size={60}
-                    color={"black"}
+                  <Image
+                    source={require("../../assets/camera/upload.png")}
+                    style={{ width: 40, height: 40 }}
                   />
                 </TouchableOpacity>
               </View>
             ) : (
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "flex-end",
-                  alignItems: "center"
-                }}
-              >
+              <View style={styles.photoActions}>
                 <TouchableOpacity onPressOut={this._changeType}>
                   <View style={styles.action}>
-                    <MaterialIcons
-                      name={
-                        type === Camera.Constants.Type.back
-                          ? "camera-front"
-                          : "camera-rear"
-                      }
-                      color="grey"
-                      size={40}
+                    <Image
+                      source={require("../../assets/camera/camchange.png")}
+                      style={{ width: 40, height: 40 }}
+                      resizeMode={"contain"}
                     />
                   </View>
                 </TouchableOpacity>
@@ -115,20 +108,24 @@ class CameraScreen extends Component {
                 <TouchableOpacity onPressOut={this._changeFlash}>
                   <View style={styles.action}>
                     {flash === Camera.Constants.FlashMode.off && (
-                      <MaterialIcons
-                        name={"flash-off"}
-                        color="grey"
-                        size={40}
+                      <Image
+                        source={require("../../assets/camera/flash_off.png")}
+                        style={{ width: 40, height: 40 }}
+                        resizeMode={"contain"}
                       />
                     )}
                     {flash === Camera.Constants.FlashMode.on && (
-                      <MaterialIcons name={"flash-on"} color="grey" size={40} />
+                      <Image
+                        source={require("../../assets/camera/flash_on.png")}
+                        style={{ width: 40, height: 40 }}
+                        resizeMode={"contain"}
+                      />
                     )}
                     {flash === Camera.Constants.FlashMode.auto && (
-                      <MaterialIcons
-                        name={"flash-auto"}
-                        color="grey"
-                        size={40}
+                      <Image
+                        source={require("../../assets/camera/flash_auto.png")}
+                        style={{ width: 40, height: 40 }}
+                        resizeMode={"contain"}
                       />
                     )}
                   </View>
@@ -206,7 +203,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   camera: {
-    flex: 3,
+    flex: 2,
     alignItems: "flex-start",
     justifyContent: "space-between",
     flexDirection: "row"
@@ -226,16 +223,15 @@ const styles = StyleSheet.create({
   },
   action: {
     backgroundColor: "transparent",
-    height: 40,
-    width: 40,
-    margin: 10
+
+    margin: 30
   },
   photoActions: {
     flexDirection: "row",
     justifyContent: "space-around",
     flex: 1,
     alignItems: "center",
-    width: 250
+    width: 300
   }
 });
 

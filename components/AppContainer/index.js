@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import AppContainer from "./presenter";
 import { actionCreators as userActions } from "../../redux/modules/user";
 import { actionCreators as themeActions } from "../../redux/modules/theme";
+import { actionCreators as photosActions } from "../../redux/modules/photos";
 
 const mapStateToProps = (state, ownProps) => {
   const { user, theme, photos } = state;
@@ -21,8 +22,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     firstLaunch: () => {
       return dispatch(userActions.firstLaunch());
     },
+    initApp: () => {
+      dispatch(photosActions.getFeed());
+    },
     getTheme: () => {
-      return dispatch(themeActions.getTheme());
+      dispatch(themeActions.getTheme());
     }
   };
 };

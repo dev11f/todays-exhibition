@@ -1,21 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  TouchableWithoutFeedback,
-  View,
-  StyleSheet,
-  Image
-} from "react-native";
+import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 const BackButton = props => (
-  <TouchableWithoutFeedback onPressOut={props.onPress}>
+  <TouchableOpacity onPressOut={props.onPress}>
     <View style={styles.container}>
       <Image
-        source={require("../../assets/images/back.png")}
+        source={require("../../assets/navigationbar/back.png")}
         style={styles.btn}
       />
     </View>
-  </TouchableWithoutFeedback>
+  </TouchableOpacity>
 );
 
 BackButton.propTypes = {
@@ -24,7 +19,8 @@ BackButton.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    marginVertical: 20
   },
   btn: {
     width: 17,

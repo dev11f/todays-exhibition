@@ -6,11 +6,11 @@ import {
   TouchableOpacity,
   FlatList,
   ImageBackground,
-  Dimensions
+  Dimensions,
+  Image
 } from "react-native";
 import PropTypes from "prop-types";
 import ActionButton from "react-native-action-button";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import Photo from "../../components/Photo";
 import FeedHeader from "../../components/FeedHeader";
 const { width, height } = Dimensions.get("window");
@@ -29,7 +29,13 @@ const FeedScreen = props => (
       onRefresh={props.onRefresh}
       onEndReachedThreshold={1}
       onEndReached={props.onEndReached}
-      ListHeaderComponent={<FeedHeader />}
+      ListHeaderComponent={
+        <FeedHeader
+          sortingBy={props.sortingBy}
+          sortByLikes={props.sortByLikes}
+          sortByTime={props.sortByTime}
+        />
+      }
       renderItem={({ item, index }) => {
         return <Photo {...item} />;
       }}
@@ -48,11 +54,18 @@ const FeedScreen = props => (
           onPress={() => {
             props.navigation.navigate("Camera");
           }}
+          buttonColor="white"
         >
-          <Ionicons name={"md-camera"} style={styles.actionBtnIcon} />
+          <Image
+            source={require("../../assets/camera/camera.png")}
+            style={{ width: 22, height: 22 }}
+          />
         </ActionButton.Item>
-        <ActionButton.Item onPress={props.openCameraRoll}>
-          <Ionicons name={"md-film"} style={styles.actionBtnIcon} />
+        <ActionButton.Item onPress={props.openCameraRoll} buttonColor="white">
+          <Image
+            source={require("../../assets/camera/album.png")}
+            style={{ width: 22, height: 22 }}
+          />
         </ActionButton.Item>
       </ActionButton>
     )}

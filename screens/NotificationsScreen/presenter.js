@@ -8,7 +8,7 @@ const NotificationsScreen = props => (
 
   <View style={styles.container}>
     <Image
-      source={require("../../assets/images/no_noti.png")}
+      source={require("../../assets/empty/no_noti.png")}
       style={styles.noNotiIcon}
       resizeMode={"contain"}
     />

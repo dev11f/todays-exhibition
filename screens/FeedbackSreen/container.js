@@ -26,24 +26,19 @@ class Container extends Component {
 
   _submit = async () => {
     const { feedback } = this.state;
-    const { navigation } = this.props;
+    const { navigation, submitFeedback } = this.props;
     if (feedback) {
       this.setState({
         isSubmitting: true
       });
 
-      const uploadFeedback = await setTimeout(() => {
-        return true;
-      }, 2000);
+      const uploadFeedback = await submitFeedback(feedback);
+
       if (uploadFeedback) {
         Alert.alert(
           "피드백이 제출되었습니다.더 노력하는 쓸 데 없는 사진전이 되겠습니다."
         );
-        navigation.goBack(null);
-
-        //
-      } else {
-        // 에러 났을 때
+        setTimeout(() => navigation.goBack(null), 300);
       }
     }
   };

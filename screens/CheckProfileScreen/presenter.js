@@ -8,7 +8,8 @@ import {
   TextInput,
   TouchableOpacity,
   Keyboard,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform
 } from "react-native";
 import PropTypes from "prop-types";
 const { width, height } = Dimensions.get("window");
@@ -30,7 +31,7 @@ const CheckProfileScreen = props => (
     </View>
 
     <View style={styles.profileContainer}>
-      <View>
+      <View style={{ padding: 0, margin: 0 }}>
         <Image
           source={
             props.avatar
@@ -43,7 +44,7 @@ const CheckProfileScreen = props => (
         <View style={styles.changeBtnContainer}>
           <TouchableOpacity onPressOut={props.handleAvatar}>
             <Image
-              source={require("../../assets/images/changeAvatar.png")}
+              source={require("../../assets/images/profileedit.png")}
               style={styles.changeBtn}
             />
           </TouchableOpacity>
@@ -59,19 +60,23 @@ const CheckProfileScreen = props => (
         }}
       />
 
-      <TextInput
-        value={props.username}
-        style={styles.profile_username}
-        returnKeyType={"done"}
-        autoCapitalize={"none"}
-        autoCorrect={false}
-        autoFocus={true}
-        // onFocus={() => Keyboard.dismiss()}
-        enablesReturnKeyAutomatically={true}
-        maxLength={10}
-        // onBlur={() => console.log("blur")}
-        onChangeText={props.handleUsername}
-      />
+      <View
+        style={{ alignItems: "stretch", width: 100, justifyContent: "center" }}
+      >
+        <TextInput
+          placeholder={"작가명을 입력하세요"}
+          value={props.username}
+          style={styles.profile_username}
+          returnKeyType={"done"}
+          autoCapitalize={"none"}
+          autoCorrect={false}
+          autoFocus={true}
+          enablesReturnKeyAutomatically={true}
+          maxLength={10}
+          onChangeText={props.handleUsername}
+          underlineColorAndroid={"transparent"}
+        />
+      </View>
     </View>
 
     <View style={styles.btnContainer}>
@@ -106,7 +111,6 @@ const styles = StyleSheet.create({
     fontFamily: "noto-sans-bold",
     fontSize: 15,
     marginHorizontal: 10,
-    // alignSelf: "center",
     color: "#616161"
   },
   profileContainer: {
@@ -130,9 +134,10 @@ const styles = StyleSheet.create({
   },
   profile_username: {
     marginTop: 15,
-    fontFamily: "noto-sans-bold",
-    // fontWeight: "600",
-    fontSize: 19
+    // fontFamily: "noto-sans-bold",  // 이거 쓰면 안드로이드 밑에 패딩 생김
+    fontSize: 15,
+    padding: 0
+    // width: 150,
   },
   btnContainer: {
     flex: 1,
@@ -141,19 +146,30 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#ffcd37",
     borderRadius: 50,
-    padding: 10,
     width: 100,
-
-    shadowColor: "#bababa",
-    shadowOffset: { width: 0, height: 8 },
-    shadowRadius: 8,
-    shadowOpacity: 0.2,
     alignItems: "center",
-    justifyContent: "center"
+    padding: 10,
+
+    ...Platform.select({
+      ios: {
+        shadowColor: "#bababa",
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+        shadowOffset: {
+          height: 8,
+          width: 0
+        }
+      },
+      android: {
+        elevation: 3
+      }
+    })
   },
   btnText: {
     color: "white",
-    fontFamily: "noto-sans-bold"
+    // fontFamily: "noto-sans-bold",
+    fontWeight: "900"
+    // margin: 0
   }
 });
 

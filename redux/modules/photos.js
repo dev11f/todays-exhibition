@@ -1,5 +1,6 @@
 // Imports
 import { API_URL, S3_URL } from "../../constants";
+import { actionCreators as userActions } from "./user";
 import { Storage } from "aws-amplify";
 import uuidv1 from "uuid/v1";
 
@@ -21,7 +22,7 @@ function getFeed() {
     const {
       user: { token }
     } = getState();
-    fetch(`${API_URL}/art_works?offset=${offset}`, {
+    fetch(`${API_URL}/art_works?offset=0`, {
       headers: {
         authorizationToken: token
       }
@@ -34,12 +35,16 @@ function getFeed() {
         }
       })
       .then(json => {
+        console.log("getFeed done", json);
         dispatch(setFeed(json.data));
+      })
+      .catch(error => {
+        console.log("getFeed", error);
       });
   };
 }
 
-function likePhoto(photoId) {
+function handleMyLike(photoId) {
   return (dispatch, getState) => {
     const {
       user: { token }
@@ -50,16 +55,48 @@ function likePhoto(photoId) {
         authorizationToken: token,
         "Content-Type": "application/json"
       },
-      body: {
+      body: JSON.stringify({
         art_id: photoId,
         type: "likes"
-      }
+      })
     }).then(response => {
-      console.log(response);
       if (response.status === 401) {
         dispatch(userActions.logOut());
       } else if (response.ok) {
-        return true;
+        return response.json().then(json => {
+          console.log(json.data);
+          return true;
+        });
+      } else {
+        return false;
+      }
+    });
+  };
+}
+
+function handleMyHate(photoId) {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    return fetch(`${API_URL}/art_like?offset=0`, {
+      method: "POST",
+      headers: {
+        authorizationToken: token,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        art_id: photoId,
+        type: "hates"
+      })
+    }).then(response => {
+      if (response.status === 401) {
+        dispatch(userActions.logOut());
+      } else if (response.ok) {
+        return response.json().then(json => {
+          console.log(json.data);
+          return true;
+        });
       } else {
         return false;
       }
@@ -90,7 +127,6 @@ function uploadPhoto(avatar, caption) {
           content: imageURL
         })
       }).then(response => {
-        console.log(response);
         if (response.status === 401) {
           console.log("log out");
           // dispatch(userActions.logOut());
@@ -101,6 +137,67 @@ function uploadPhoto(avatar, caption) {
         }
       });
     });
+  };
+}
+
+function getComments(photoId) {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+
+    return fetch(`${API_URL}/comments/${photoId}?order=like`, {
+      headers: {
+        authorizationToken: token
+      }
+    })
+      .then(response => {
+        if (response.status === 401) {
+          // logout
+        } else if (response.ok) {
+          return response.json().then(json => {
+            return json.data;
+          });
+        }
+      })
+      .catch(error => console.log("getComments error", error));
+  };
+}
+
+function uploadComment(photoId, text) {
+  console.log("upload comment", photoId, text);
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+
+    return fetch(`${API_URL}/comments`, {
+      method: "POST",
+      headers: {
+        authorizationToken: token,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        art_id: photoId,
+        comment: text
+      })
+    })
+      .then(response => {
+        if (response.status === 401) {
+          dispatch(userActions.logOut());
+        } else if (response.ok) {
+          return response
+            .json()
+            .then(json => {
+              console.log("comment??", json.data);
+              return true;
+            })
+            .catch(error => console.log("upload comment error", error));
+        } else {
+          return false;
+        }
+      })
+      .catch(error => console.log("upload comment error!", error));
   };
 }
 
@@ -129,8 +226,11 @@ function applySetFeed(state, action) {
 // Exports
 const actionCreators = {
   getFeed,
-  likePhoto,
-  uploadPhoto
+  uploadPhoto,
+  handleMyLike,
+  handleMyHate,
+  getComments,
+  uploadComment
 };
 
 export { actionCreators };

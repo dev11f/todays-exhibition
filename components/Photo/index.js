@@ -5,14 +5,16 @@ import { actionCreators as photoActions } from "../../redux/modules/photos";
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { id } = ownProps;
   return {
-    dispatchLike: isLiked => {
-      if (isLiked) {
-        return dispatch(photoActions.unlikePhoto(id));
-      } else {
-        return dispatch(photoActions.likePhoto(id));
-      }
+    handleMyLike: () => {
+      return dispatch(photoActions.handleMyLike(id));
+    },
+    handleMyHate: () => {
+      return dispatch(photoActions.handleMyHate(id));
     }
   };
 };
 
-export default connect()(Container);
+export default connect(
+  null,
+  mapDispatchToProps
+)(Container);

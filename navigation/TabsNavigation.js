@@ -17,10 +17,10 @@ const TabsNavigation = createBottomTabNavigator(
             <Image
               source={
                 focused
-                  ? require("../assets/tabIcons/feed_active.png")
-                  : require("../assets/tabIcons/feed.png")
+                  ? require("../assets/tabbar/feed_active.png")
+                  : require("../assets/tabbar/feed.png")
               }
-              style={{ width: 20, height: 20 }}
+              style={{ width: 22, height: 22 }}
               resizeMode={"contain"}
             />
           );
@@ -35,10 +35,10 @@ const TabsNavigation = createBottomTabNavigator(
             <Image
               source={
                 focused
-                  ? require("../assets/tabIcons/awards_active.png")
-                  : require("../assets/tabIcons/awards.png")
+                  ? require("../assets/tabbar/awards_active.png")
+                  : require("../assets/tabbar/awards.png")
               }
-              style={{ width: 20, height: 20 }}
+              style={{ width: 22, height: 26 }}
               resizeMode={"contain"}
             />
           );
@@ -53,10 +53,10 @@ const TabsNavigation = createBottomTabNavigator(
             <Image
               source={
                 focused
-                  ? require("../assets/tabIcons/noti_active.png")
-                  : require("../assets/tabIcons/noti.png")
+                  ? require("../assets/tabbar/noti_active.png")
+                  : require("../assets/tabbar/noti.png")
               }
-              style={{ width: 20, height: 20 }}
+              style={{ width: 22, height: 26 }}
               resizeMode={"contain"}
             />
           );
@@ -71,10 +71,10 @@ const TabsNavigation = createBottomTabNavigator(
             <Image
               source={
                 focused
-                  ? require("../assets/tabIcons/my_active.png")
-                  : require("../assets/tabIcons/my.png")
+                  ? require("../assets/tabbar/my_active.png")
+                  : require("../assets/tabbar/my.png")
               }
-              style={{ width: 20, height: 20 }}
+              style={{ width: 22, height: 22 }}
               resizeMode={"contain"}
             />
           );

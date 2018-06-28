@@ -21,7 +21,6 @@ const FeedbackScreen = props => (
 
     <View style={styles.textContainer}>
       <TextInput
-        // value={"국형빈빈"}
         style={styles.feedback}
         returnKeyType={"done"}
         autoCapitalize={"none"}
@@ -30,6 +29,7 @@ const FeedbackScreen = props => (
         enablesReturnKeyAutomatically={true}
         multiline={true}
         onChangeText={props.handleFeedback}
+        underlineColorAndroid={"transparent"}
       />
     </View>
 

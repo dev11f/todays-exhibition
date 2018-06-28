@@ -23,7 +23,7 @@ class Container extends Component {
     if (nextProps.profile) {
       console.log("늦게 로딩");
       this.setState({
-        username: nextProps.profile.nickname,
+        // username: nextProps.profile.nickname,
         avatar: nextProps.profile.avatar
       });
     }

@@ -6,55 +6,43 @@ import PropTypes from "prop-types";
 const PhotoActions = props => (
   <View style={styles.container}>
     <View style={styles.actions}>
-      {props.isLiked === 1 ? (
-        <TouchableOpacity>
-          <View>
-            <Image
-              source={require("../../assets/images/liked.png")}
-              style={{ width: 17, height: 17 }}
-            />
-          </View>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity>
-          <View>
-            <Image
-              source={require("../../assets/images/like.png")}
-              style={{ width: 17, height: 17 }}
-            />
-          </View>
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity onPressOut={props.handleMyLike}>
+        <View>
+          <Image
+            source={
+              props.isLiked === 1
+                ? require("../../assets/like_hate/like_active.png")
+                : require("../../assets/like_hate/like.png")
+            }
+            style={{ width: 17, height: 17 }}
+          />
+        </View>
+      </TouchableOpacity>
+
       <View style={styles.action}>
         <Text style={props.isLiked ? styles.activeNumber : styles.number}>
-          {props.likes}
+          {props.totalLikes}
         </Text>
       </View>
     </View>
 
     <View style={styles.actions}>
-      {props.isHated === 1 ? (
-        <TouchableOpacity>
-          <View>
-            <Image
-              source={require("../../assets/images/hated.png")}
-              style={{ width: 17, height: 17 }}
-            />
-          </View>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity>
-          <View>
-            <Image
-              source={require("../../assets/images/hate.png")}
-              style={{ width: 17, height: 17 }}
-            />
-          </View>
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity onPressOut={props.handleMyHate}>
+        <View>
+          <Image
+            source={
+              props.isHated === 1
+                ? require("../../assets/like_hate/hate_active.png")
+                : require("../../assets/like_hate/hate.png")
+            }
+            style={{ width: 17, height: 17 }}
+          />
+        </View>
+      </TouchableOpacity>
+
       <View style={styles.action}>
         <Text style={props.isHated ? styles.activeNumber : styles.number}>
-          {props.hates}
+          {props.totalHates}
         </Text>
       </View>
     </View>

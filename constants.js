@@ -26,6 +26,8 @@ export const awsConfig = {
   }
 };
 
+
+
 // 안드로이드 firebase expo 로그인에 필요한 것  -> 이거 입력하면 google api에 사용자 인증 정보에 android 생김
 // 터미널에 openssl rand -base64 32 | openssl sha1 -c 친 결과
 // a1:7e:a4:f9:7d:27:7d:68:f0:6d:89:fc:08:4d:0a:3f:71:ab:27:21

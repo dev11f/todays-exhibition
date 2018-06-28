@@ -41,6 +41,7 @@ const UploadScreen = props => (
           enablesReturnKeyAutomatically={true}
           onChangeText={props.handleText}
           maxLength={20}
+          underlineColorAndroid={"transparent"}
         />
         <Text style={styles.textAvailable}>{props.captionLengthAvailable}</Text>
       </View>

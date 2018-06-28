@@ -24,7 +24,6 @@ const RootNavigation = createStackNavigator(
       screen: UploadScreen,
       navigationOptions: {
         headerLeft: props => <BackButton {...props} />,
-
         headerTitle: (
           <Text style={{ fontFamily: "noto-sans-bold", fontSize: 15 }}>
             출품하기
@@ -32,20 +31,6 @@ const RootNavigation = createStackNavigator(
         )
       }
     }
-
-    // UploadPhoto: {
-    //   screen: UploadPhotoScreen,
-    //   navigationOptions: ({ navigation }) => ({
-    //     title: "Upload Photo",
-    //     headerLeft: (
-    //       <Button
-    //         title="Cancel"
-    //         color="black"
-    //         onPress={() => navigation.goBack(null)}
-    //       />
-    //     )
-    //   })
-    // }
   },
   {
     mode: "modal"
