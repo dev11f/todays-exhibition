@@ -26,6 +26,7 @@ const Comment = props => (
           justifyContent: "center",
           alignItems: "center"
         }}
+        onPressOut={props.likeComment}
       >
         <View>
           <Image
@@ -40,7 +41,7 @@ const Comment = props => (
 
         <View style={styles.action}>
           <Text style={props.isLiked ? styles.activeNumber : styles.number}>
-            {props.likes}
+            {props.totalLikes}
           </Text>
         </View>
       </TouchableOpacity>

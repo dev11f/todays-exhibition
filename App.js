@@ -43,6 +43,14 @@ class App extends React.Component {
   }
 
   _loadAssetsAsync = async () => {
+    // firebase.auth().onAuthStateChanged(user => {
+    //   if (user !== null) {
+    //     console.log("user: user");
+    //   } else {
+    //     console.log("user: null");
+    //   }
+    // });
+
     return Promise.all([
       Asset.loadAsync([
         require("./assets/camera/album.png"),
@@ -99,6 +107,15 @@ class App extends React.Component {
       Font.loadAsync({
         "noto-sans-regular": require("./assets/fonts/NotoSansMonoCJKkr-Regular.otf"),
         "noto-sans-bold": require("./assets/fonts/NotoSansCJKkr-Bold.otf")
+      }),
+      new Promise(function(resolve, reject) {
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {
+            resolve("already logged in");
+          } else {
+            resolve("first login");
+          }
+        });
       })
     ]);
   };
@@ -108,7 +125,7 @@ class App extends React.Component {
   };
 
   _handleFinishLoading = async () => {
-    console.log("app.js loading finished");
+    console.log("app loading done");
     this.setState({
       isLoadingComplete: true
     });

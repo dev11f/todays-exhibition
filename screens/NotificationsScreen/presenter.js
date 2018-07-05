@@ -1,28 +1,50 @@
 import React from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  ScrollView,
+  RefreshControl
+} from "react-native";
 import PropTypes from "prop-types";
 import Notification from "../../components/Notification";
 
 const NotificationsScreen = props => (
-  // 노티 없을 때
-
-  <View style={styles.container}>
-    <Image
-      source={require("../../assets/empty/no_noti.png")}
-      style={styles.noNotiIcon}
-      resizeMode={"contain"}
-    />
-    <Text style={styles.noNotiText}>아직 도착한 소식이 없네요 </Text>
-  </View>
-
-  // 노티 있을 때
-  // {/* <Notification /> */}
+  <ScrollView
+    refreshControl={
+      <RefreshControl
+        refreshing={props.isFetching}
+        onRefresh={props.refresh}
+        tintColor={"black"}
+      />
+    }
+  >
+    <View style={styles.container}>
+      {props.notifications.length === 0 && props.notifications.length > 1 ? (
+        <View style={styles.noNoti}>
+          <Image
+            source={require("../../assets/empty/no_noti.png")}
+            style={styles.noNotiIcon}
+            resizeMode={"contain"}
+          />
+          <Text style={styles.noNotiText}>아직 도착한 소식이 없네요 </Text>
+        </View>
+      ) : (
+        props.notifications.map(notification => (
+          <Notification key={notification.id} {...notification} />
+        ))
+      )}
+    </View>
+  </ScrollView>
 );
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    flex: 1,
+    flex: 1
+  },
+  noNoti: {
     justifyContent: "center",
     alignItems: "center"
   },

@@ -15,6 +15,10 @@ export const firebaseConfig = {
   messagingSenderId: "1074458220768"
 };
 
+export const reduxFirebaseConfig = {
+  userProfile: "users"
+};
+
 export const awsConfig = {
   Auth: {
     identityPoolId: "ap-northeast-2:341b5891-7e18-46a3-a904-3551dd3fe78c",
@@ -25,8 +29,6 @@ export const awsConfig = {
     region: "ap-northeast-2"
   }
 };
-
-
 
 // 안드로이드 firebase expo 로그인에 필요한 것  -> 이거 입력하면 google api에 사용자 인증 정보에 android 생김
 // 터미널에 openssl rand -base64 32 | openssl sha1 -c 친 결과

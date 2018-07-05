@@ -17,7 +17,8 @@ class CameraScreen extends Component {
     type: Camera.Constants.Type.back,
     flash: Camera.Constants.FlashMode.off,
     pictureTaken: false,
-    picture: null
+    pictureUri: null,
+    pictureBase64: null
   };
 
   componentDidMount = async () => {
@@ -33,7 +34,7 @@ class CameraScreen extends Component {
       type,
       flash,
       pictureTaken,
-      picture
+      pictureUri
     } = this.state;
     const { navigation } = this.props;
 
@@ -58,7 +59,7 @@ class CameraScreen extends Component {
           <StatusBar hidden={true} />
           {pictureTaken ? (
             <View style={{ flex: 2 }}>
-              <FitImage source={{ uri: picture }} style={{ flex: 1 }} />
+              <FitImage source={{ uri: pictureUri }} style={{ flex: 1 }} />
             </View>
           ) : (
             <Camera
@@ -166,10 +167,12 @@ class CameraScreen extends Component {
       if (this.camera) {
         const takenPhoto = await this.camera.takePictureAsync({
           quality: 0.7,
-          exif: true
+          exif: true,
+          base64: true
         });
         this.setState({
-          picture: takenPhoto.uri,
+          pictureUri: takenPhoto.uri,
+          pictureBase64: takenPhoto.base64,
           pictureTaken: true
         });
       }
@@ -178,20 +181,22 @@ class CameraScreen extends Component {
 
   _rejectPhoto = () => {
     this.setState({
-      picture: null,
+      pictureUri: null,
+      pictureBase64: null,
       pictureTaken: false
     });
   };
 
   _approvePhoto = async () => {
-    const { picture } = this.state;
+    const { pictureUri, pictureBase64 } = this.state;
     const {
       navigation: { navigate }
     } = this.props;
     // 내 폰에 저장
-    navigate("UploadPhoto", { url: picture });
+    navigate("UploadPhoto", { uri: pictureUri, base64: pictureBase64 });
     this.setState({
-      picture: null,
+      pictureUri: null,
+      pictureBase64: null,
       pictureTaken: false
     });
   };

@@ -1,12 +1,11 @@
 import React, { PureComponent } from "react";
 import { Text, Alert } from "react-native";
 import PropTypes from "prop-types";
-import Photo from "./presenter";
+import PhotoActions from "./presenter";
 
 class Container extends PureComponent {
   constructor(props) {
     super(props);
-    console.log("photo component content", props);
     this.state = {
       isLiked: props.like_flag,
       isHated: props.hate_flag,
@@ -16,8 +15,7 @@ class Container extends PureComponent {
   }
   render() {
     return (
-      <Photo
-        {...this.props}
+      <PhotoActions
         {...this.state}
         handleMyLike={this._handleMyLike}
         handleMyHate={this._handleMyHate}

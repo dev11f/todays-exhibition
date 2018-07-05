@@ -73,7 +73,7 @@ class Presenter extends Component {
               <Text />
             </ListItem>
             <ListItem
-              onPressOut={() => console.log("로그아웃")}
+              onPressOut={() => this.props.logOut()}
               style={styles.item}
             >
               <Left>

@@ -16,11 +16,6 @@ import FeedHeader from "../../components/FeedHeader";
 const { width, height } = Dimensions.get("window");
 
 const FeedScreen = props => (
-  // <ImageBackground
-  //   source={require("../../assets/images/background.jpg")}
-  //   style={{ width, height, flex: 1, alignSelf: "center" }}
-  // >
-
   <View style={styles.container}>
     <FlatList
       data={props.feed}
@@ -70,7 +65,6 @@ const FeedScreen = props => (
       </ActionButton>
     )}
   </View>
-  // </ImageBackground>
 );
 
 const styles = StyleSheet.create({

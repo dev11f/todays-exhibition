@@ -1,11 +1,12 @@
 // Imports
 import { FB_APP_ID } from "../../constants";
 import { Facebook, Google } from "expo";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage, Alert } from "react-native";
 import { API_URL, S3_URL } from "../../constants";
 import * as firebase from "firebase";
 import { Storage } from "aws-amplify";
 import uuidv1 from "uuid/v1";
+import { actionCreators as themeActions } from "./theme";
 
 // Actions
 const LOG_IN = "LOG_IN";
@@ -18,10 +19,9 @@ const UPDATE_USERNAME = "UPDATE_USERNAME";
 
 // Actions Creators
 
-function setLogIn(token) {
+function setLogIn() {
   return {
-    type: LOG_IN,
-    token
+    type: LOG_IN
   };
 }
 
@@ -93,12 +93,11 @@ function facebookLogin() {
             })
           })
             .then(response => response.json())
-
             .then(json => {
-              console.log(json);
-              if (json.user && json.token) {
-                dispatch(setLogIn(json.token));
+              if (json.user) {
+                dispatch(setLogIn());
                 dispatch(setUser(json.user));
+                dispatch(themeActions.getTheme());
                 return true;
               } else {
                 return false;
@@ -114,7 +113,9 @@ function googleLogin() {
   return async dispatch => {
     const result = await Google.logInAsync({
       androidClientId:
-        "1074458220768-5ipus17vbiq54pv99j5injuqq7324ee1.apps.googleusercontent.com",
+        // 이건 expo app일 때. android standalone app이 아니라
+        // "1074458220768-5ipus17vbiq54pv99j5injuqq7324ee1.apps.googleusercontent.com",
+        "1074458220768-jdq1l03tbimdeeaqls0f7nl7fsh2h02r.apps.googleusercontent.com",
       iosClientId:
         "1074458220768-rne40k2ml9s76c3sm6qpgb0vu67cb3jr.apps.googleusercontent.com",
 
@@ -123,10 +124,11 @@ function googleLogin() {
 
     if (result.type === "success") {
       const credential = firebase.auth.GoogleAuthProvider.credential(
-        result.idToken
+        result.idToken,
+        result.accessToken
       );
 
-      firebase
+      return firebase
         .auth()
         .signInAndRetrieveDataWithCredential(credential)
         .then(result => {
@@ -141,10 +143,10 @@ function googleLogin() {
           })
             .then(response => response.json())
             .then(json => {
-              console.log("google login return", json);
-              if (json.user && json.token) {
-                dispatch(setLogIn(json.token));
+              if (json.user) {
+                dispatch(setLogIn());
                 dispatch(setUser(json.user));
+                dispatch(themeActions.getTheme());
 
                 return true;
               } else {
@@ -159,100 +161,103 @@ function googleLogin() {
 
 function submitFeedback(feedback) {
   return (dispatch, getState) => {
-    const {
-      user: { token }
-    } = getState();
-    return fetch(`${API_URL}/feedback`, {
-      method: "POST",
-      headers: {
-        authorizationToken: token,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        feedback: feedback
-      })
-    })
-      .then(response => {
-        if (response.status === 401) {
-          dispatch(userActions.logOut());
-        } else if (response.ok) {
-          return response.json().then(json => {
+    return firebase
+      .auth()
+      .currentUser.getIdToken(true)
+      .then(idToken => {
+        return fetch(`${API_URL}/feedback`, {
+          method: "POST",
+          headers: {
+            authorizationToken: idToken,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            feedback: feedback
+          })
+        })
+          .then(response => response.json())
+          .then(json => {
+            // if (json.success === true) {
             return true;
+            // } else {
+            //   console.log("error", json);
+            //   return false;
+            // }
           });
-        } else {
-          return false;
-        }
       })
-      .catch(error => console.log("submit feedback error", error));
+      .catch(error => console.log("firebase idToken error", error));
   };
 }
 
-function uploadProfile(avatar, username) {
+function updateProfile(avatar, username) {
   return (dispatch, getState) => {
     return Storage.put(`${new Date().getTime()}-${uuidv1()}.jpg`, avatar, {
       contentType: "image/jepg"
     })
       .then(result => {
         const imageURL = `${S3_URL}/${result.key}`;
-        const {
-          user: { token }
-        } = getState();
 
-        console.log("uploadprofile", imageURL, username);
-
-        return fetch(`${API_URL}/user`, {
-          method: "PUT",
-          headers: {
-            authorizationToken: token,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            avater: imageURL,
-            nickname: username
+        return firebase
+          .auth()
+          .currentUser.getIdToken(true)
+          .then(idToken => {
+            // updateUser to AWS
+            return fetch(`${API_URL}/user`, {
+              method: "PUT",
+              headers: {
+                authorizationToken: idToken,
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                avatar: imageURL,
+                nickname: username
+              })
+            })
+              .then(response => response.json())
+              .then(json => {
+                if (json.success === true) {
+                  dispatch(updateUser(imageURL, username));
+                  return true;
+                } else {
+                  console.log("error", json);
+                  return false;
+                }
+              });
           })
-        })
-          .then(response => {
-            console.log("upload profile response", response);
-            if (response.status === 401) {
-              console.log("log out");
-              // dispatch(userActions.logOut());
-            } else if (response.ok) {
-              console.log("upload profile");
-              dispatch(updateUser(imageURL, username));
-              return true;
-            } else {
-              console.log("upload profile false");
-              return false;
-            }
-          })
-          .catch(error => console.log("upload profile error", error));
+          .catch(error => console.log("firebase idToken error", error));
       })
-      .catch(error => console.log("upload profile image error", error));
+      .catch(error => console.log("s3 error", error));
   };
 }
 
-function updateUsername(username) {
+function updateNickname(username) {
   return (dispatch, getState) => {
-    return fetch(`${API_URL}/updateUser`, {
-      method: "PUT",
-      headers: {
-        authorizationToken: token,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        nickname: username
+    return firebase
+      .auth()
+      .currentUser.getIdToken(true)
+      .then(idToken => {
+        return fetch(`${API_URL}/user`, {
+          method: "PUT",
+          headers: {
+            authorizationToken: idToken,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            nickname: username
+          })
+        })
+          .then(response => response.json())
+          .then(json => {
+            if (json.success === true) {
+              dispatch(updateUsername(username));
+              return true;
+            } else {
+              console.log("error", json);
+              return false;
+            }
+          });
       })
-    }).then(response => {
-      if (response.status === 401) {
-        console.log("log out");
-        // dispatch(userActions.logOut());
-      } else if (response.ok) {
-        dispatch(updateUsername(username));
-        return true;
-      } else {
-        return false;
-      }
-    });
+      .catch(error => console.log("firebase idToken error", error));
   };
 }
 
@@ -288,11 +293,9 @@ function reducer(state = initialState, action) {
 // Reducer Actions
 
 function applyLogIn(state, action) {
-  const { token } = action;
   return {
     ...state,
-    isLoggedIn: true,
-    token
+    isLoggedIn: true
   };
 }
 
@@ -302,8 +305,7 @@ function applyLogOut(state, action) {
   console.log("LOGOUTTT");
   return {
     ...state,
-    isLoggedIn: false,
-    token: ""
+    isLoggedIn: false
   };
 }
 
@@ -361,9 +363,10 @@ const actionCreators = {
   googleLogin,
   firstLaunch,
   firstLogin,
-  uploadProfile,
+  updateProfile,
   submitFeedback,
-  updateUsername
+  updateNickname,
+  logOut
 };
 
 export { actionCreators };

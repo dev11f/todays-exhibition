@@ -1,12 +1,12 @@
 {
   "expo": {
     "name": "쓸데없는 사진전",
-    "description": "useless-exhibition",
-    "slug": "useless-exhibition",
+    "description": "useless-exhibitions",
+    "slug": "useless-exhibitions",
     "privacy": "public",
     "sdkVersion": "27.0.0",
     "platforms": ["ios", "android"],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -22,7 +22,13 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "co.hyoungbin.exhibitions"
+      "package": "co.hyoungbin.exhibitions",
+      "config": {
+        "googleSignIn": {
+          "apiKey": "AIzaSyBr-lFVp9oKA8iN8gb3V4vd3DGGoL0TUCc",
+          "certificateHash": "4D70C84ACE89EC253D30A1063B1E2A2AE04B97EC"
+        }
+      }
     }
   }
 }

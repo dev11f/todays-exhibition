@@ -4,7 +4,7 @@ import FeedScreen from "./presenter";
 import { randomImages } from "../../util";
 import { ImagePicker, Permissions } from "expo";
 import { Alert, PanResponder } from "react-native";
-import { ConsoleLogger } from "aws-amplify";
+import * as firebase from "firebase";
 
 // FlatList는 PureComponent랑???
 class Container extends PureComponent {
@@ -22,19 +22,20 @@ class Container extends PureComponent {
   };
 
   componentWillMount = () => {
-    this._pandResponder = PanResponder.create({
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true
-    });
+    // this._pandResponder = PanResponder.create({
+    //   onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+    //   onStartShouldSetPanResponderCapture: (evt, gestureState) => true
+    // });
 
     console.log("what time is it now", new Date().getHours());
-    if (new Date().getHours() === 17) {
-      console.log("It's 5pm right now");
+    if (new Date().getHours() === 11) {
+      console.log("It's 11am right now");
     }
   };
 
   componentDidMount = () => {
     const { getFeed } = this.props;
+
     getFeed();
   };
 
@@ -51,7 +52,7 @@ class Container extends PureComponent {
       <FeedScreen
         {...this.props}
         {...this.state}
-        {...this._pandResponder.panHandlers}
+        // {...this._pandResponder.panHandlers}
         onRefresh={this._onRefresh}
         onEndReached={this._onEndReached}
         scrollBegin={this._scrollBegin}
@@ -62,34 +63,6 @@ class Container extends PureComponent {
       />
     );
   }
-
-  _openCameraRoll = async () => {
-    const {
-      navigation: { navigate }
-    } = this.props;
-    const { image } = this.state;
-
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-
-    if (status === "granted") {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 0.7
-      });
-      if (!result.cancelled) {
-        // this.setState({ image: result.uri });
-        navigate("UploadPhoto", { url: result.uri });
-      }
-    } else if (status !== "granted") {
-      Alert.alert(
-        "앨범 접근 권한이 없습니다. 설정에 가서 앨범 권한을 승인해주세요!"
-      );
-    } else {
-      console.log("status null");
-      return;
-    }
-  };
 
   _onRefresh = async () => {
     const { getFeed } = this.props;
@@ -132,6 +105,35 @@ class Container extends PureComponent {
       this.setState({
         sortingBy: "time"
       });
+    }
+  };
+
+  _openCameraRoll = async () => {
+    const {
+      navigation: { navigate }
+    } = this.props;
+    const { image } = this.state;
+
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+    if (status === "granted") {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.7,
+        base64: true
+      });
+      if (!result.cancelled) {
+        // this.setState({ image: result.uri });
+        navigate("UploadPhoto", { uri: result.uri, base64: result.base64 });
+      }
+    } else if (status !== "granted") {
+      Alert.alert(
+        "앨범 접근 권한이 없습니다. 설정에 가서 앨범 권한을 승인해주세요!"
+      );
+    } else {
+      console.log("status null");
+      return;
     }
   };
 }

@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import UploadScreen from "./presenter";
+import { Buffer } from "buffer";
 
 class Container extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -25,7 +26,6 @@ class Container extends Component {
               />
             </View>
           </TouchableOpacity>
-          )}
         </View>
       )
     };
@@ -50,14 +50,14 @@ class Container extends Component {
     const {
       navigation: {
         state: {
-          params: { url }
+          params: { uri }
         }
       }
     } = this.props;
 
     return (
       <UploadScreen
-        imageURL={url}
+        imageURL={uri}
         handleText={this._handleText}
         {...this.state}
       />
@@ -79,7 +79,7 @@ class Container extends Component {
       navigation,
       navigation: {
         state: {
-          params: { url }
+          params: { base64 }
         }
       }
     } = this.props;
@@ -90,10 +90,12 @@ class Container extends Component {
         isSubmitting: true
       });
 
-      const response = await fetch(url);
-      const blob = await response.blob();
+      // const response = await fetch(url);
+      // const blob = await response.blob();
 
-      const uploadResult = await submit(blob, caption);
+      const buffer = new Buffer(base64, "base64");
+
+      const uploadResult = await submit(buffer, caption);
 
       console.log("uploadResult", uploadResult);
 

@@ -58,8 +58,6 @@ class AppContainer extends Component {
           isFirstLogin ? (
             <CheckProfileScreen />
           ) : (
-            // <CheckProfileScreen />
-            // <LoggedOutNavigation />
             <RootNavigation screenProps={{ theme }} />
           )
         ) : isFirstLaunch ? (

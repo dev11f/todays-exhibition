@@ -14,8 +14,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     firstLogin: () => {
       return dispatch(userActions.firstLogin());
     },
-    uploadProfile: (avatar, username) => {
-      return dispatch(userActions.uploadProfile(avatar, username));
+    updateProfile: (avatar, username) => {
+      return dispatch(userActions.updateProfile(avatar, username));
+    },
+    updateNickname: username => {
+      return dispatch(userActions.updateNickname(username));
     }
   };
 };

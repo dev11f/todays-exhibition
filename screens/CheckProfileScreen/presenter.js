@@ -61,7 +61,12 @@ const CheckProfileScreen = props => (
       />
 
       <View
-        style={{ alignItems: "stretch", width: 100, justifyContent: "center" }}
+        style={{
+          alignItems: "stretch",
+          width: 100,
+          justifyContent: "center"
+          // alignItems: "center"
+        }}
       >
         <TextInput
           placeholder={"작가명을 입력하세요"}
@@ -136,7 +141,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     // fontFamily: "noto-sans-bold",  // 이거 쓰면 안드로이드 밑에 패딩 생김
     fontSize: 15,
-    padding: 0
+    marginHorizontal: 10
     // width: 150,
   },
   btnContainer: {

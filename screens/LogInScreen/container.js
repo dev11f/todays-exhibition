@@ -6,12 +6,14 @@ import {} from "react-native-fbsdk";
 
 class Container extends Component {
   state = {
-    isSubmitting: false
+    isFacebookSubmitting: false,
+    isGoogleSubmitting: false
   };
 
   render() {
     return (
       <LogInScreen
+        {...this.state}
         fbLogin={this._handleFBLogin}
         googleLogin={this._handleGoogleLogin}
       />
@@ -21,22 +23,22 @@ class Container extends Component {
   _handleFBLogin = async () => {
     const { fbLogin } = this.props;
     this.setState({
-      isSubmitting: true
+      isFacebookSubmitting: true
     });
     const facebookResult = await fbLogin();
     if (!facebookResult) {
-      this.setState({ isSubmitting: false });
+      this.setState({ isFacebookSubmitting: false });
     }
   };
 
   _handleGoogleLogin = async () => {
     const { googleLogin } = this.props;
     this.setState({
-      isSubmitting: true
+      isGoogleSubmitting: true
     });
     const GoogleResult = await googleLogin();
     if (!GoogleResult) {
-      this.setState({ isSubmitting: false });
+      this.setState({ isGoogleSubmitting: false });
     }
   };
 }

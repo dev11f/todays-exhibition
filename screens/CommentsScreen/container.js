@@ -38,7 +38,6 @@ class Container extends PureComponent {
     this.setState({
       myComment: text
     });
-    console.log("mycomment", this.state.myComment);
   };
 
   _submitComment = async () => {

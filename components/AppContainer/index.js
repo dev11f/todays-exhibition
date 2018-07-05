@@ -8,12 +8,13 @@ const mapStateToProps = (state, ownProps) => {
   const { user, theme, photos } = state;
   // console.log("user redux", user);
   // console.log("photo redux", photos);
+  // console.log("theme redux", theme.themeInfo);
   return {
     isLoggedIn: user.isLoggedIn,
     isFirstLogin: user.isFirstLogin,
     isFirstLaunch: user.isFirstLaunch,
     profile: user.profile,
-    theme: theme.theme
+    theme: theme.themeInfo ? theme.themeInfo.theme_title : theme.themeInfo
   };
 };
 

@@ -9,10 +9,8 @@ const Description = props => (
     <CardItem>
       <View style={styles.container}>
         <View style={styles.description}>
-          {/* <Text style={styles.title}>{props.title}</Text>
-          <Text style={styles.author}>{props.username}</Text> */}
-          <Text style={styles.title}>작품명이 무엇일까 가나다라마바하하하</Text>
-          <Text style={styles.author}>작가명</Text>
+          <Text style={styles.title}>{props.title}</Text>
+          <Text style={styles.author}>{props.username}</Text>
         </View>
 
         <View style={styles.options}>

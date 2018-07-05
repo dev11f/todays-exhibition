@@ -6,7 +6,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
-  Image
+  Image,
+  ActivityIndicator,
+  Platform
 } from "react-native";
 import { WebBrowser } from "expo";
 const { width, height } = Dimensions.get("window");
@@ -40,15 +42,33 @@ const LogInScreen = props => (
             style={styles.button}
             onPressOut={props.googleLogin}
           >
-            <Image
-              source={require("../../assets/images/google.png")}
-              style={styles.buttonImage1}
-              resizeMode={"contain"}
-            />
+            {props.isGoogleSubmitting ? (
+              <ActivityIndicator color="black" />
+            ) : (
+              <Image
+                source={require("../../assets/images/google.png")}
+                style={styles.buttonImage1}
+                resizeMode={"contain"}
+              />
+            )}
           </TouchableOpacity>
         </View>
 
         <View style={styles.btnContainer}>
+          <TouchableOpacity style={styles.button} onPressOut={props.fbLogin}>
+            {props.isFacebookSubmitting ? (
+              <ActivityIndicator color="black" />
+            ) : (
+              <Image
+                source={require("../../assets/images/facebook.png")}
+                style={styles.buttonImage3}
+                resizeMode={"contain"}
+              />
+            )}
+          </TouchableOpacity>
+        </View>
+
+        {/* <View style={styles.btnContainer}>
           <TouchableOpacity
             style={styles.button}
             onPressOut={() => console.log("instagram login")}
@@ -59,19 +79,9 @@ const LogInScreen = props => (
               resizeMode={"contain"}
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
-        <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.button} onPressOut={props.fbLogin}>
-            <Image
-              source={require("../../assets/images/facebook.png")}
-              style={styles.buttonImage3}
-              resizeMode={"contain"}
-            />
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.btnContainer}>
+        {/* <View style={styles.btnContainer}>
           <TouchableOpacity
             style={styles.button}
             onPressOut={() => console.log("kakao login")}
@@ -82,7 +92,7 @@ const LogInScreen = props => (
               resizeMode={"contain"}
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
 
       <View
@@ -158,7 +168,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   btnContainer: {
-    marginTop: 10,
+    marginTop: 30,
     backgroundColor: "#fff"
     // alignItems: "center",
     // justifyContent: "center"
@@ -168,16 +178,28 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     padding: 10,
     width: 200,
+    height: 40,
     marginBottom: 5,
-    shadowColor: "#bababa",
-    shadowOffset: { width: 0, height: 8 },
-    shadowRadius: 8,
-    shadowOpacity: 0.2,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+
+    ...Platform.select({
+      ios: {
+        shadowColor: "#bababa",
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+        shadowOffset: {
+          height: 8,
+          width: 0
+        }
+      },
+      android: {
+        elevation: 3
+      }
+    })
   },
   buttonImage1: {
-    height: 27
+    height: 25
   },
   buttonImage2: {
     height: 25

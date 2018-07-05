@@ -1,5 +1,6 @@
 // Imports
 import { API_URL } from "../../constants";
+import * as firebase from "firebase";
 
 // Actions
 
@@ -7,30 +8,30 @@ const SET_THEME = "SET_THEME";
 
 // Actions Creators
 
-function setTheme(theme) {
+function setTheme(themeInfo) {
   return {
     type: SET_THEME,
-    theme
+    themeInfo
   };
 }
 
 // API Actions
 function getTheme() {
   return (dispatch, getState) => {
-    const {
-      user: { token }
-    } = getState();
-
-    fetch(`${API_URL}/themes`, {
-      headers: {
-        authorizationToken: token
-      }
-    })
-      .then(response => {
-        // response 문제 있으면 로그아웃
-        return response.json();
-      })
-      .then(json => dispatch(setTheme(json.data[0].theme_title)));
+    return firebase
+      .auth()
+      .currentUser.getIdToken(true)
+      .then(idToken => {
+        fetch(`${API_URL}/themes`, {
+          headers: {
+            authorizationToken: idToken
+          }
+        })
+          .then(response => response.json())
+          .then(json => {
+            dispatch(setTheme(json.data[0]));
+          });
+      });
   };
 }
 
@@ -49,10 +50,10 @@ function reducer(state = initialState, action) {
 
 // Reducer Actions
 function applySetTheme(state, action) {
-  const { theme } = action;
+  const { themeInfo } = action;
   return {
     ...state,
-    theme
+    themeInfo
   };
 }
 

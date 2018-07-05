@@ -17,6 +17,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     postComment: text => {
       return dispatch(photoActions.uploadComment(photoId, text));
+    },
+    getPhoto: () => {
+      return dispatch(photoActions.getPhoto(photoId));
     }
   };
 };
