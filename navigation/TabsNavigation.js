@@ -11,6 +11,7 @@ const TabsNavigation = createBottomTabNavigator(
   {
     Home: {
       screen: HomeRoute,
+      path: "/",
       navigationOptions: {
         tabBarIcon: ({ focused }) => {
           return (
@@ -29,6 +30,7 @@ const TabsNavigation = createBottomTabNavigator(
     },
     Awards: {
       screen: AwardsRoute,
+      path: "/awards",
       navigationOptions: {
         tabBarIcon: ({ focused }) => {
           return (
@@ -47,6 +49,7 @@ const TabsNavigation = createBottomTabNavigator(
     },
     Notifications: {
       screen: NotificationsRoute,
+      path: "/notifications",
       navigationOptions: {
         tabBarIcon: ({ focused }) => {
           return (
@@ -65,6 +68,7 @@ const TabsNavigation = createBottomTabNavigator(
     },
     Profile: {
       screen: ProfileRoute,
+      path: "/profile",
       navigationOptions: {
         tabBarIcon: ({ focused }) => {
           return (
@@ -83,6 +87,7 @@ const TabsNavigation = createBottomTabNavigator(
     }
   },
   {
+    backBehavior: "none",
     tabBarOptions: {
       showLabel: false,
       style: {

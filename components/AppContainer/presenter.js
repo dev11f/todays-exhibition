@@ -4,7 +4,9 @@ import { View, Text, StatusBar, StyleSheet, Dimensions } from "react-native";
 import RootNavigation from "../../navigation/RootNavigation";
 import CheckProfileScreen from "../../screens/CheckProfileScreen";
 import LoggedOutNavigation from "../../navigation/LoggedOutNavigation";
+import TabsNavigation from "../../navigation/TabsNavigation";
 import AppIntroSlider from "react-native-app-intro-slider";
+
 const { width, height } = Dimensions.get("window");
 
 const slides = [
@@ -37,11 +39,16 @@ class AppContainer extends Component {
   };
 
   componentDidMount() {
-    const { isLoggedIn, initApp, getTheme } = this.props;
+    const { isLoggedIn, getTheme } = this.props;
     if (isLoggedIn) {
       getTheme();
     }
   }
+
+  _onBackButtonPressAndroid = () => {
+    console.log("back button work!");
+    return true;
+  };
 
   render() {
     const {
@@ -58,7 +65,8 @@ class AppContainer extends Component {
           isFirstLogin ? (
             <CheckProfileScreen />
           ) : (
-            <RootNavigation screenProps={{ theme }} />
+            <TabsNavigation screenProps={{ theme }} />
+            // <RootNavigation screenProps={{ theme }} />
           )
         ) : isFirstLaunch ? (
           <AppIntroSlider

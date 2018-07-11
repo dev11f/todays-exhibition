@@ -3,17 +3,18 @@ import Container from "./container";
 import { actionCreators as photoActions } from "../../redux/modules/photos";
 
 const mapStateToProps = (state, ownProps) => {
-  const {
-    photos: { feed }
-  } = state;
+  const { photos } = state;
 
-  return { feed };
+  return { feedByLike: photos.feedByLike, feedByTime: photos.feedByTime };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getFeed: () => {
-      dispatch(photoActions.getFeed());
+    getFeedByLike: () => {
+      dispatch(photoActions.getFeedByLike());
+    },
+    getFeedByTime: () => {
+      dispatch(photoActions.getFeedByTime());
     }
   };
 };

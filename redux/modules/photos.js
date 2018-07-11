@@ -8,25 +8,33 @@ import * as firebase from "firebase";
 let offset = 0;
 
 // Actions
-const SET_FEED = "SET_FEED";
+const SET_FEED_BY_LIKE = "SET_FEED_BY_LIKE";
+const SET_FEED_BY_TIME = "SET_FEED_BY_TIME";
 
 // Actions Creators
 
-function setFeed(feed) {
+function setFeedByLike(feedByLike) {
   return {
-    type: SET_FEED,
-    feed
+    type: SET_FEED_BY_LIKE,
+    feedByLike
+  };
+}
+
+function setFeedByTime(feedByTime) {
+  return {
+    type: SET_FEED_BY_TIME,
+    feedByTime
   };
 }
 
 // API Actions
-function getFeed() {
+function getFeedByLike() {
   return (dispatch, getState) => {
     return firebase
       .auth()
       .currentUser.getIdToken(true)
       .then(idToken => {
-        return fetch(`${API_URL}/art_works?offset=0`, {
+        return fetch(`${API_URL}/art_works?offset=0&order=like`, {
           headers: {
             authorizationToken: idToken
           }
@@ -34,13 +42,37 @@ function getFeed() {
           .then(response => response.json())
           .then(json => {
             // if (json.success === true) {
-            dispatch(setFeed(json.data));
+            dispatch(setFeedByLike(json.data));
             // } else {
             //   console.log("error", json);
             // }
           });
       })
-      .catch(error => console.log("firebase idToken error", error));
+      .catch(error => console.log("firebase idToken error1111", error));
+  };
+}
+
+function getFeedByTime() {
+  return (dispatch, getState) => {
+    return firebase
+      .auth()
+      .currentUser.getIdToken(true)
+      .then(idToken => {
+        return fetch(`${API_URL}/art_works?offset=0&order=date`, {
+          headers: {
+            authorizationToken: idToken
+          }
+        })
+          .then(response => response.json())
+          .then(json => {
+            // if (json.success === true) {
+            dispatch(setFeedByTime(json.data));
+            // } else {
+            //   console.log("error", json);
+            // }
+          });
+      })
+      .catch(error => console.log("firebase idToken error1111", error));
   };
 }
 
@@ -234,25 +266,36 @@ const initialState = {};
 // Reducer
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case SET_FEED:
-      return applySetFeed(state, action);
+    case SET_FEED_BY_LIKE:
+      return applySetFeedByLike(state, action);
+    case SET_FEED_BY_TIME:
+      return applySetFeedByTime(state, action);
     default:
       return state;
   }
 }
 
 // Reducer Actions
-function applySetFeed(state, action) {
-  const { feed } = action;
+function applySetFeedByLike(state, action) {
+  const { feedByLike } = action;
   return {
     ...state,
-    feed
+    feedByLike
+  };
+}
+
+function applySetFeedByTime(state, action) {
+  const { feedByTime } = action;
+  return {
+    ...state,
+    feedByTime
   };
 }
 
 // Exports
 const actionCreators = {
-  getFeed,
+  getFeedByLike,
+  getFeedByTime,
   getPhoto,
   uploadPhoto,
   handleMyLike,

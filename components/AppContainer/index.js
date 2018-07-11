@@ -5,7 +5,7 @@ import { actionCreators as themeActions } from "../../redux/modules/theme";
 import { actionCreators as photosActions } from "../../redux/modules/photos";
 
 const mapStateToProps = (state, ownProps) => {
-  const { user, theme, photos } = state;
+  const { user, theme } = state;
   // console.log("user redux", user);
   // console.log("photo redux", photos);
   // console.log("theme redux", theme.themeInfo);
@@ -22,9 +22,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     firstLaunch: () => {
       return dispatch(userActions.firstLaunch());
-    },
-    initApp: () => {
-      dispatch(photosActions.getFeed());
     },
     getTheme: () => {
       dispatch(themeActions.getTheme());

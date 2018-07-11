@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
 const ProfileRoute = createStackNavigator({
   Profile: {
     screen: ProfileScreen,
+    path: "/",
     navigationOptions: ({ focused, navigation }) => ({
       headerTitle: <Text style={styles.title}>내 정보</Text>,
       headerRight: (
@@ -40,6 +41,7 @@ const ProfileRoute = createStackNavigator({
 
   Settings: {
     screen: SettingsScreen,
+    path: "/settings",
     navigationOptions: {
       headerLeft: props => <BackButton {...props} />,
       headerTitle: <Text style={styles.title}>설정</Text>
@@ -48,6 +50,7 @@ const ProfileRoute = createStackNavigator({
 
   Feedback: {
     screen: FeedbackScreen,
+    path: "/feedback",
     navigationOptions: {
       headerLeft: props => <BackButton {...props} />,
       headerTitle: <Text style={styles.title}>피드백</Text>

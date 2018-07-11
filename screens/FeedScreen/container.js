@@ -5,21 +5,26 @@ import { randomImages } from "../../util";
 import { ImagePicker, Permissions } from "expo";
 import { Alert, PanResponder } from "react-native";
 import * as firebase from "firebase";
+import { AndroidBackHandler } from "react-navigation-backhandler";
 
 // FlatList는 PureComponent랑???
 class Container extends PureComponent {
   static propTypes = {
-    getFeed: PropTypes.func.isRequired,
-    feed: PropTypes.array
+    // feed: PropTypes.array
   };
+  constructor(props) {
+    super(props);
 
-  state = {
-    isRefreshing: false,
-    isScrolling: false,
-    image: null,
-    sortingBy: "likes"
-    // likes , time,
-  };
+    this.state = {
+      isRefreshing: false,
+      isScrolling: false,
+      image: null,
+      // likes , time
+      sortingBy: "likes",
+      firstSortingByTime: true,
+      feed: []
+    };
+  }
 
   componentWillMount = () => {
     // this._pandResponder = PanResponder.create({
@@ -33,14 +38,17 @@ class Container extends PureComponent {
     }
   };
 
-  componentDidMount = () => {
-    const { getFeed } = this.props;
+  componentDidMount = async () => {
+    const { getFeedByLike, feedByLike } = this.props;
+    await getFeedByLike();
 
-    getFeed();
+    this.setState({
+      feed: feedByLike
+    });
   };
 
   componentWillReceiveProps = nextProps => {
-    if (nextProps.feed) {
+    if (nextProps.feedByLike || nextProps.feedByTime) {
       this.setState({
         isRefreshing: false
       });
@@ -49,27 +57,30 @@ class Container extends PureComponent {
 
   render() {
     return (
-      <FeedScreen
-        {...this.props}
-        {...this.state}
-        // {...this._pandResponder.panHandlers}
-        onRefresh={this._onRefresh}
-        onEndReached={this._onEndReached}
-        scrollBegin={this._scrollBegin}
-        scrollEnd={this._scrollEnd}
-        openCameraRoll={this._openCameraRoll}
-        sortByTime={this._sortByTime}
-        sortByLikes={this._sortByLikes}
-      />
+      <AndroidBackHandler onBackPress={this._onBackButtonPressAndroid}>
+        <FeedScreen
+          {...this.props}
+          {...this.state}
+          // {...this._pandResponder.panHandlers}
+          onRefresh={this._onRefresh}
+          onEndReached={this._onEndReached}
+          scrollBegin={this._scrollBegin}
+          scrollEnd={this._scrollEnd}
+          openCameraRoll={this._openCameraRoll}
+          sortByTime={this._sortByTime}
+          sortByLikes={this._sortByLikes}
+        />
+      </AndroidBackHandler>
     );
   }
 
   _onRefresh = async () => {
-    const { getFeed } = this.props;
-    this.setState({
-      isRefreshing: true
-    });
-    getFeed();
+    // const { getFeed } = this.props;
+    // this.setState({
+    //   isRefreshing: true
+    // });
+    // getFeed();
+    // like냐 time이냐에 따라서
   };
 
   _onEndReached = () => {
@@ -91,18 +102,29 @@ class Container extends PureComponent {
   };
 
   _sortByLikes = () => {
-    const { sortingBy } = this.state;
+    const { sortingBy, feed } = this.state;
+    const { feedByLike } = this.props;
     if (sortingBy !== "likes") {
       this.setState({
+        feed: feedByLike,
         sortingBy: "likes"
       });
     }
   };
 
-  _sortByTime = () => {
-    const { sortingBy } = this.state;
+  _sortByTime = async () => {
+    const { sortingBy, firstSortingByTime, feed } = this.state;
+    const { getFeedByTime, feedByTime } = this.props;
+
     if (sortingBy !== "time") {
+      if (firstSortingByTime) {
+        await getFeedByTime();
+        this.setState({ firstSortingByTime: false });
+      }
+
+      console.log("time feed", feed);
       this.setState({
+        feed: feedByTime,
         sortingBy: "time"
       });
     }

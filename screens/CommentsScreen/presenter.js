@@ -53,8 +53,6 @@ const CommentsScreen = props => (
                   totalHates={props.totalHates}
                   isLiked={props.isLiked}
                   isHated={props.isHated}
-                  handleMyLike={props.handleMyLike}
-                  handleMyHate={props.handleMyHate}
                 />
               </View>
               <View style={styles.description}>

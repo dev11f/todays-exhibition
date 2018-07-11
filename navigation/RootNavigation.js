@@ -10,18 +10,21 @@ const RootNavigation = createStackNavigator(
   {
     Tabs: {
       screen: TabsNavigation,
+      path: "/",
       navigationOptions: {
         header: null
       }
     },
     Camera: {
       screen: CameraScreen,
+      path: "/camera",
       navigationOptions: {
         header: null
       }
     },
     UploadPhoto: {
       screen: UploadScreen,
+      path: "/uploadphoto",
       navigationOptions: {
         headerLeft: props => <BackButton {...props} />,
         headerTitle: (

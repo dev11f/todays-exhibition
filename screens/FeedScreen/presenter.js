@@ -31,6 +31,19 @@ const FeedScreen = props => (
           sortByTime={props.sortByTime}
         />
       }
+      ListEmptyComponent={
+        <View style={styles.noFeed}>
+          <Image
+            source={require("../../assets/empty/no_feed.png")}
+            style={styles.noFeedIcon}
+            resizeMode={"contain"}
+          />
+          <Text style={styles.noFeedText1}>아직 출품된 작품이 없습니다. </Text>
+          <Text style={styles.noFeedText2}>
+            첫 번째 출품의 기회를 노리세요!
+          </Text>
+        </View>
+      }
       renderItem={({ item, index }) => {
         return <Photo {...item} />;
       }}
@@ -80,6 +93,27 @@ const styles = StyleSheet.create({
     fontSize: 20,
     height: 22,
     color: "white"
+  },
+
+  noFeed: {
+    // 왜 나누기 4를 해야하는거지
+    marginTop: height / 4,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  noFeedIcon: {
+    width: 80,
+    height: 80
+  },
+  noFeedText1: {
+    marginTop: 20,
+    fontSize: 14,
+    color: "#cccccc"
+  },
+  noFeedText2: {
+    marginTop: 3,
+    fontSize: 14,
+    color: "#cccccc"
   }
 });
 

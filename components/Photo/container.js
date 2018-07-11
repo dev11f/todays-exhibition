@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { Text, Alert } from "react-native";
 import PropTypes from "prop-types";
-import PhotoActions from "./presenter";
+import Photo from "./presenter";
 
 class Container extends PureComponent {
   constructor(props) {
@@ -15,8 +15,9 @@ class Container extends PureComponent {
   }
   render() {
     return (
-      <PhotoActions
+      <Photo
         {...this.state}
+        {...this.props}
         handleMyLike={this._handleMyLike}
         handleMyHate={this._handleMyHate}
       />

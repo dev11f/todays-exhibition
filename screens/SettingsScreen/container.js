@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, BackHandler } from "react-native";
 import {
   Container,
   Content,
@@ -14,6 +14,48 @@ import PropTypes from "prop-types";
 import { WebBrowser } from "expo";
 
 class Presenter extends Component {
+  _didFocusSubscription;
+  _willBlurSubscription;
+
+  constructor(props) {
+    super(props);
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      payload => {
+        BackHandler.addEventListener(
+          "hardwareBackPress",
+          this._onBackButtonPressAndroid
+        );
+      }
+    );
+  }
+
+  componentDidMount() {
+    this._willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      payload =>
+        BackHandler.removeEventListener(
+          "hardwareBackPress",
+          this._onBackButtonPressAndroid
+        )
+    );
+  }
+
+  _onBackButtonPressAndroid = () => {
+    const { dispatch, nav } = this.props;
+    if (nav.index === 0) {
+      return false;
+    }
+
+    dispatch(NavigationActions.back());
+    return true;
+  };
+
+  componentWillUnmount() {
+    this._didFocusSubscription && this._didFocusSubscription.remove();
+    this._willBlurSubscription && this._willBlurSubscription.remove();
+  }
+
   render() {
     return (
       <Container>
